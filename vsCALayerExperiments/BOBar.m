@@ -159,7 +159,8 @@ static const CGFloat kHowLongWouldItTake  = 15.5f; //animation duration
 - (UIBezierPath*)shadowTo {
   CGFloat cornerRadius = self.rectBarFrame.size.width / 2.f;
   UIRectCorner rectCorner = UIRectCornerAllCorners;
-  CGFloat y = 0; //(self.howBigIsItsShadow / 2.f); 
+  CGFloat y = 0; 
+  y = self.rectBarFrame.origin.y - (self.howBigIsItsShadow / 2.f); 
   //CGFloat screenHeight = self.rectBarFrame.size.height; 
   CGFloat screenHeight = self.rectBarFrame.size.height + self.howBigIsItsShadow;
 
