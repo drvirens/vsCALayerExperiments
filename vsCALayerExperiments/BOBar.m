@@ -10,14 +10,14 @@
 #import "BOColor.h"
 
 
-static const CGFloat kHowThickIsIt = 50.f;
-static const CGFloat kHowBigIsIt = 300.f;
+//static const CGFloat kHowThickIsIt = 50.f;
+//static const CGFloat kHowBigIsIt = 300.f;
 
 static const CGFloat kHowBigIsItsShadow   = 100.f; //the bigger the value, the longer the shadow on top
 static const CGFloat kHowBlurIsIt         = 10.f; //the biiger the value, the blurreir it is
 static const CGFloat kHowMuchVisibleIsIt  = .14f; //the bigger the value, the darker the shadow
 
-static const CGFloat kHowLongWouldItTake  = 10.5f; //animation duration
+static const CGFloat kHowLongWouldItTake  = 5.5f; //animation duration
 
 
 @interface BOBar ()
@@ -110,15 +110,8 @@ static const CGFloat kHowLongWouldItTake  = 10.5f; //animation duration
                    
                    shapeLayer.fillColor = [BOColor skyBlueColor].CGColor;
                    
-                   CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-                   CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+                   CGFloat width = self.bounds.size.width;
                    
-                   CGFloat x = (screenWidth - kHowThickIsIt)/2.f;
-                   CGFloat y = (screenHeight - kHowBigIsIt)/2.f;
-                   CGFloat width = kHowThickIsIt;
-                   CGFloat height = kHowBigIsIt;
-                   //CGRect rect = CGRectMake(x, y, width, height);
-                   //self.rectBarFrame = rect;
                    CGRect rect = self.rectBarFrame;
                    NSLog(@"FRAME for BOBar is [%@]", NSStringFromCGRect(self.frame));
                    NSLog(@"So rectBarFrame here is [%@]", NSStringFromCGRect(self.rectBarFrame));
@@ -164,20 +157,11 @@ static const CGFloat kHowLongWouldItTake  = 10.5f; //animation duration
   CAShapeLayer* bar = [CAShapeLayer layer];
   [self initShapeLayer:bar 
                  block:^(CAShapeLayer* shapeLayer){
-                   CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-                   CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
-                   
-                   CGFloat factor = .1*kHowBigIsIt;
-                   const CGFloat howBigIsIt = kHowBigIsIt + factor;
                    
                    shapeLayer.fillColor = [BOColor skyBlueColorVeryFaint].CGColor;
                    
-                   CGFloat x = (screenWidth - kHowThickIsIt)/2.f;
-                   CGFloat y = (screenHeight - howBigIsIt)/2.f;
-                   CGFloat width = kHowThickIsIt;
-                   CGFloat height = howBigIsIt;
-//                   CGRect rect = CGRectMake(x, y, width, height);
-//                   self.rectSecondaryBarFrame = rect;
+                   CGFloat width = self.bounds.size.width;
+                   
                    CGRect rect = self.rectSecondaryBarFrame;
                    NSLog(@"FRAME for BOBar is [%@]", NSStringFromCGRect(self.frame));
                    NSLog(@"So rectSecondaryBarFrame here is [%@]", NSStringFromCGRect(self.rectSecondaryBarFrame));
@@ -213,12 +197,33 @@ static const CGFloat kHowLongWouldItTake  = 10.5f; //animation duration
     NSLog(@"Exception happened while removing observer");
   }
 }
+- (CGFloat)layerHorizontalMarginPercent {
+  return 0.2f;
+}
+- (CGFloat)layerVerticalMarginPercent {
+  return 0.5f;
+}
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
   NSLog(@"observeValueForKeyPath for BOBar called");
   if ([keyPath isEqualToString:@"bounds"]) {
     self.layer.frame = self.bounds;
-    self.rectBarFrame = self.frame;
-    self.rectSecondaryBarFrame = self.frame;
+    
+    //adjust the height and width considering the shadow
+    CGFloat marginPercentHorizontal = [self layerHorizontalMarginPercent];
+    CGFloat marginPercentVertical = [self layerVerticalMarginPercent];
+    CGFloat ourWidth = self.bounds.size.width;
+    CGFloat ourHeight = self.bounds.size.height;
+    
+    CGFloat x = self.frame.origin.x;
+    CGFloat y = self.frame.origin.y;
+    CGFloat width = ourWidth - ( ourWidth * marginPercentHorizontal );
+    CGFloat height = ourHeight - ( ourHeight * marginPercentVertical );
+    CGRect adjustedRect = CGRectMake(x, y, width, height);
+    self.rectBarFrame = adjustedRect;
+    self.rectSecondaryBarFrame = adjustedRect;
+    
+//    self.rectBarFrame = self.frame;
+//    self.rectSecondaryBarFrame = self.frame;
   } else {
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
   }

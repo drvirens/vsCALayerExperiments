@@ -28,13 +28,12 @@
 //  [self testShapeLayerOval];
 }
 
-- (void)viewWillLayoutSubviews {
-  [super viewWillLayoutSubviews];
-  
+- (void)viewDidLayoutSubviews {
+  [super viewDidLayoutSubviews];
   [self addBOBar];
   [self testBOBar];
-}
 
+}
 - (void)addBOBar {
   [self.view addSubview:self.boBar];
   
@@ -232,7 +231,7 @@ static const CGFloat kHowLongWouldItTake  = 0.5f; //animation duration
 }
 
 - (void)testBOBar {
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5. * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1. * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
     [self.boBar createBar];
   });
 }
