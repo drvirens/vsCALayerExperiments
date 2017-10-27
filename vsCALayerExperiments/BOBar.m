@@ -10,30 +10,62 @@
 #import "BOColor.h"
 
 
+//shape layer
 static const CGFloat kBackgroundBarHeightIsMoreByThisFactor = .1f; //20% more than real bar height. example, if real bar height is 100, bgBar will be 120
-
 static const CGFloat kHowBigIsItsShadow   = 0.5f; //the bigger the value, the longer the shadow on top
 static const CGFloat kHowBlurIsIt         = 10.f; //the biiger the value, the blurreir it is
 static const CGFloat kHowMuchVisibleIsIt  = .14f; //the bigger the value, the darker the shadow
-
 static const CGFloat kHowLongWouldItTake  = 0.5f; //animation duration
 
+
+//text layer
+static const CGFloat kTitleFOntSize = 20.f;
 
 @interface BOBar ()
 @property (nonatomic) CGRect rectBarFrame;
 @property (nonatomic) CGRect rectSecondaryBarFrame;
 @property (nonatomic) CGFloat howBigIsItsShadow;
 @property (nonatomic) CGFloat heightMargin;
+@property (nonatomic, copy, readwrite) NSString* title;
+@property (nonatomic, copy, readwrite) NSString* subTitle;
 @end
 
 @implementation BOBar
 
-- (instancetype)initWithFrame:(CGRect)frame {
-  if (self = [super initWithFrame:frame]) {
+#pragma mark - public api
+- (instancetype)initWithTitle:(NSString*)title subTitle:(NSString*)subTitle {
+  if (self = [super init]) {
+    _title = title;
+    _subTitle = subTitle;
     [self commonInit];
   }
   return self;
 }
+
+- (void)createBar {
+  {//main bar
+    CAShapeLayer* bar = [self createMainBar];
+    [self addShadowToShapeLayer:bar];
+    [self addFillAnimation:bar];
+    [self.layer addSublayer:bar];
+  }
+  {
+    //bar with light opacity shadow overlapping main bar
+    CAShapeLayer* bar = [self createSecondaryBar];
+    [self.layer addSublayer:bar];
+  }
+  {
+    //add subtitle
+    CATextLayer* subtitle = [self createText:self.subTitle];
+    [self positionSubtitle:subtitle];
+    [self.layer addSublayer:subtitle];
+  }
+  {
+    //add title
+  }
+}
+
+
 - (void)commonInit {
   self.translatesAutoresizingMaskIntoConstraints = NO;
   self.backgroundColor = [UIColor clearColor];
@@ -41,6 +73,26 @@ static const CGFloat kHowLongWouldItTake  = 0.5f; //animation duration
   [self addObserver:self forKeyPath:keypath options:NSKeyValueObservingOptionNew context:nil];
 }
 
+#pragma mark - text
+- (CATextLayer*)createText:(NSString*)title {
+  CATextLayer* text = [CATextLayer layer];
+  //XXX: Use attributed string
+  text.string = title;
+  text.foregroundColor = [UIColor whiteColor].CGColor;
+  text.fontSize = kTitleFOntSize;
+  text.contentsScale = [UIScreen mainScreen].scale;
+  text.alignmentMode = kCAAlignmentCenter;
+  return text;
+}
+
+- (void)positionSubtitle:(CATextLayer*)text {
+  CGFloat x = 0.f;
+  CGFloat y = 20.f;
+  CGFloat width = self.rectBarFrame.size.width;
+  CGFloat height = 80.f;
+  CGRect subtitleRect = CGRectMake(x, y, width, height);
+  text.frame = subtitleRect;
+}
 #pragma mark - helpers
 - (void)initShapeLayer:(CAShapeLayer*)layer block:(void(^)(CAShapeLayer*))block {
   block(layer);
@@ -61,28 +113,6 @@ static const CGFloat kHowLongWouldItTake  = 0.5f; //animation duration
   
   [CATransaction commit];
 }
-
-//- (UIBezierPath*)shadowFrom {
-//  UIRectCorner rectCorner = UIRectCornerAllCorners;
-//  CGFloat screenHeight = self.rectBarFrame.size.height; //[UIScreen mainScreen].bounds.size.height;
-//  CGFloat y = screenHeight - self.rectBarFrame.size.height - self.howBigIsItsShadow;
-//  
-//  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, 
-//                           y, 
-//                           self.rectBarFrame.size.width, 
-//                           (2.f * self.howBigIsItsShadow) 
-//                           );
-//  UIBezierPath* shadowPath = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:rectCorner cornerRadii:CGSizeMake(10.f, 10.f)];
-//  return shadowPath;
-//}
-//- (UIBezierPath*)shadowTo {
-//  UIRectCorner rectCorner = UIRectCornerAllCorners;
-//  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, self.rectBarFrame.origin.y - self.howBigIsItsShadow, self.rectBarFrame.size.width, self.rectBarFrame.size.height + (2.f * self.howBigIsItsShadow) );
-//  UIBezierPath* shadowPath = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:rectCorner cornerRadii:CGSizeMake(10.f, 10.f)];
-//  return shadowPath;
-//}
-
-
 
 - (void)addShadowToShapeLayer:(CAShapeLayer*)shapeLayer {
   shapeLayer.shadowColor = [BOColor skyBlueColor].CGColor;
@@ -210,22 +240,6 @@ static const CGFloat kHowLongWouldItTake  = 0.5f; //animation duration
                  }];
   return bar;
 }
-
-#pragma mark - api
-- (void)createBar {
-  {//main bar}
-    CAShapeLayer* bar = [self createMainBar];
-    [self addShadowToShapeLayer:bar];
-    [self addFillAnimation:bar];
-    [self.layer addSublayer:bar];
-  }
-  {
-    //bar with light opacity shadow overlapping main bar
-    CAShapeLayer* bar = [self createSecondaryBar];
-    [self.layer addSublayer:bar];
-  }
-}
-
 
 #pragma mark - kvo
 - (void)dealloc {

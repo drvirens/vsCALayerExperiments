@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface BOBar : UIView
+@property (nonatomic, copy, readonly) NSString* title;
+@property (nonatomic, copy, readonly) NSString* subTitle;
+
+- (instancetype)initWithTitle:(NSString*)title subTitle:(NSString*)subTitle;
 - (void)createBar;
+
 @end

@@ -55,7 +55,7 @@
 }
 - (BOBar*)boBar {
   if (!_boBar) {
-    BOBar* bar = [[BOBar alloc] init];
+    BOBar* bar = [[BOBar alloc] initWithTitle:@"BOWEN" subTitle:@"69 %"];
     _boBar = bar;
   }
   return _boBar;

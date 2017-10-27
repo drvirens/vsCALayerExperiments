@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "vsCALayerExperiments/BOBar.m"
-            timestampString = "530775952.121167"
+            timestampString = "530785360.062449"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
             landmarkName = "-shadowFrom"
             landmarkType = "7">
          </BreakpointContent>
