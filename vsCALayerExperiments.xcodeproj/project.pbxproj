@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		117089231FA2A87900279637 /* BOBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 117089221FA2A87900279637 /* BOBar.m */; };
+		117089261FA2AE9C00279637 /* BOColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 117089251FA2AE9C00279637 /* BOColor.m */; };
 		11ECDD461FA1188400E88FDC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11ECDD451FA1188400E88FDC /* AppDelegate.m */; };
 		11ECDD491FA1188400E88FDC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11ECDD481FA1188400E88FDC /* ViewController.m */; };
 		11ECDD4C1FA1188400E88FDC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11ECDD4A1FA1188400E88FDC /* Main.storyboard */; };
@@ -16,6 +18,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		117089211FA2A87900279637 /* BOBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BOBar.h; sourceTree = "<group>"; };
+		117089221FA2A87900279637 /* BOBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BOBar.m; sourceTree = "<group>"; };
+		117089241FA2AE9C00279637 /* BOColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BOColor.h; sourceTree = "<group>"; };
+		117089251FA2AE9C00279637 /* BOColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BOColor.m; sourceTree = "<group>"; };
 		11ECDD411FA1188400E88FDC /* vsCALayerExperiments.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vsCALayerExperiments.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11ECDD441FA1188400E88FDC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		11ECDD451FA1188400E88FDC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -67,6 +73,10 @@
 				11ECDD4F1FA1188400E88FDC /* LaunchScreen.storyboard */,
 				11ECDD521FA1188400E88FDC /* Info.plist */,
 				11ECDD531FA1188400E88FDC /* main.m */,
+				117089211FA2A87900279637 /* BOBar.h */,
+				117089221FA2A87900279637 /* BOBar.m */,
+				117089241FA2AE9C00279637 /* BOColor.h */,
+				117089251FA2AE9C00279637 /* BOColor.m */,
 			);
 			path = vsCALayerExperiments;
 			sourceTree = "<group>";
@@ -142,8 +152,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				117089231FA2A87900279637 /* BOBar.m in Sources */,
 				11ECDD491FA1188400E88FDC /* ViewController.m in Sources */,
 				11ECDD541FA1188400E88FDC /* main.m in Sources */,
+				117089261FA2AE9C00279637 /* BOColor.m in Sources */,
 				11ECDD461FA1188400E88FDC /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -218,7 +230,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -267,7 +279,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -281,6 +293,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F38H382JLK;
 				INFOPLIST_FILE = vsCALayerExperiments/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.viren.bowen.boappsseries.vsCALayerExperiments;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -295,6 +308,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F38H382JLK;
 				INFOPLIST_FILE = vsCALayerExperiments/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.viren.bowen.boappsseries.vsCALayerExperiments;
 				PRODUCT_NAME = "$(TARGET_NAME)";

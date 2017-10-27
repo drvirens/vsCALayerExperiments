@@ -7,9 +7,13 @@
 //
 
 #import "ViewController.h"
+#import "BOBar.h"
+#import "BOColor.h"
 
 @interface ViewController ()
 @property (nonatomic) CGRect rectBarFrame;
+@property (nonatomic) CGRect rectSecondaryBarFrame;
+@property (nonatomic) BOBar* boBar;
 @end
 
 @implementation ViewController
@@ -21,33 +25,58 @@
   //[self testBasics];
   //[self testShapeWithRoundedRect];
   
-  [self testShapeLayerOval];
+//  [self testShapeLayerOval];
 }
 
-
-//Gradient
-//Bar
-//Percent
-//Name
-
-- (UIColor*)skyBlueColor {
-  return [UIColor colorWithRed:41.f/255.f green:198.f/255.f blue:250.f/255.f alpha:1.f];
+- (void)viewWillLayoutSubviews {
+  [super viewWillLayoutSubviews];
+  
+  [self addBOBar];
+  [self testBOBar];
 }
+
+- (void)addBOBar {
+  [self.view addSubview:self.boBar];
+  
+  UIView* parent = self.view;
+  //constraints
+  NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:self.boBar attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:20.f];
+  NSLayoutConstraint* bottom = [NSLayoutConstraint constraintWithItem:self.boBar attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeBottom multiplier:1.f constant:-20.f];
+  NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:self.boBar attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeLeading multiplier:1.f constant:20.f];
+  NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:self.boBar attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTrailing multiplier:1.f constant:-20.f];
+  
+  [parent addConstraints:@[top, bottom, left, right]];
+}
+- (BOBar*)boBar {
+  if (!_boBar) {
+    BOBar* bar = [[BOBar alloc] init];
+    _boBar = bar;
+  }
+  return _boBar;
+}
+
+//
+//Bar main
+//Bar non-gradient shadow
+//Percent label
+//Name label
+
 
 - (void)initShapeLayer:(CAShapeLayer*)layer block:(void(^)(CAShapeLayer*))block {
   block(layer);
 }
 
-#pragma mark - shadow
-//static const CGFloat kHowBigIsItsShadow   = 60.f; //the bigger the value, the longer the shadow on top
-//static const CGFloat kHowBlurIsIt         = 20.f; //the biiger the value, the blurreir it is
-//static const CGFloat kHowMuchVisibleIsIt  = .12f; //the bigger the value, the darker the shadow
 
-static const CGFloat kHowBigIsItsShadow   = 120.f; //the bigger the value, the longer the shadow on top
+static const CGFloat kHowThickIsIt = 50.f;
+static const CGFloat kHowBigIsIt = 300.f;
+
+static const CGFloat kHowBigIsItsShadow   = 100.f; //the bigger the value, the longer the shadow on top
 static const CGFloat kHowBlurIsIt         = 10.f; //the biiger the value, the blurreir it is
 static const CGFloat kHowMuchVisibleIsIt  = .12f; //the bigger the value, the darker the shadow
 
+static const CGFloat kHowLongWouldItTake  = 0.5f; //animation duration
 
+#pragma mark - shadow
 - (void)animateShadowPath:(CAShapeLayer*)shapeLayer from:(CGPathRef)from to:(CGPathRef)to {
     [CATransaction begin];
     //shadow shoud grow by 50% - NOT working yolo
@@ -57,13 +86,11 @@ static const CGFloat kHowMuchVisibleIsIt  = .12f; //the bigger the value, the da
     shadowPath.fromValue = (__bridge id)from;
     shadowPath.toValue = (__bridge id)to;
     
-    shadowPath.duration = 10.f;
+    shadowPath.duration = kHowLongWouldItTake;
     shadowPath.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     [shapeLayer addAnimation:shadowPath forKey:@"Animate ShadowPath"];
-  
-    //shapeLayer.shadowOffset = CGSizeMake(0, -(2.f * kHowBigIsItsShadow) );
-    
-    [CATransaction commit];
+
+  [CATransaction commit];
 }
 
 
@@ -73,20 +100,12 @@ static const CGFloat kHowMuchVisibleIsIt  = .12f; //the bigger the value, the da
   CGFloat y = screenHeight - self.rectBarFrame.size.height - kHowBigIsItsShadow;
   
   CGRect rect = CGRectMake(self.rectBarFrame.origin.x, 
-                           y, //self.rectBarFrame.origin.y - kHowBigIsItsShadow, 
+                           y, 
                            self.rectBarFrame.size.width, 
-                           (2.f * kHowBigIsItsShadow) //0. //self.rectBarFrame.size.height + (2.f * kHowBigIsItsShadow) 
+                           (2.f * kHowBigIsItsShadow) 
                            );
   UIBezierPath* shadowPath = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:rectCorner cornerRadii:CGSizeMake(10.f, 10.f)];
   return shadowPath;
-
-  
-//  CGFloat cornerRadius = self.rectBarFrame.size.width / 2.f;
-//  CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
-//  CGFloat y = screenHeight - self.rectBarFrame.size.height;
-//  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, y, self.rectBarFrame.size.width, 0);
-//  UIBezierPath* nofill = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:cornerRadius];
-//  return nofill;
 }
 
 - (UIBezierPath*)shadowTo {
@@ -97,7 +116,7 @@ static const CGFloat kHowMuchVisibleIsIt  = .12f; //the bigger the value, the da
 }
 
 - (void)addShadowToShapeLayer:(CAShapeLayer*)shapeLayer {
-  shapeLayer.shadowColor = [self skyBlueColor].CGColor;
+  shapeLayer.shadowColor = [BOColor skyBlueColor].CGColor;
   
   //using shadowOffset and shadowPath will most likely screw up your shit so be careful
   //shapeLayer.shadowOffset = CGSizeMake(0, -kHowBigIsItsShadow); //animatable
@@ -105,12 +124,11 @@ static const CGFloat kHowMuchVisibleIsIt  = .12f; //the bigger the value, the da
   shapeLayer.shadowOpacity = kHowMuchVisibleIsIt; //animatable
   
   //shadowPath;
-  
   UIBezierPath* to = [self shadowTo];
   UIBezierPath* from = [self shadowFrom];
   shapeLayer.shadowPath = to.CGPath;
   
-  //animate
+  //animate shadow
   [self animateShadowPath:shapeLayer from:from.CGPath to:to.CGPath];
 }
 
@@ -118,10 +136,9 @@ static const CGFloat kHowMuchVisibleIsIt  = .12f; //the bigger the value, the da
   CAShapeLayer* bar = [CAShapeLayer layer];
   [self initShapeLayer:bar 
                  block:^(CAShapeLayer* shapeLayer){
-                   static const CGFloat kHowThickIsIt = 50.f;
-                   static const CGFloat kHowBigIsIt = 300.f;
                    
-                   shapeLayer.fillColor = [self skyBlueColor].CGColor;
+                   
+                   shapeLayer.fillColor = [BOColor skyBlueColor].CGColor;
                    
                    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
                    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
@@ -160,7 +177,7 @@ static const CGFloat kHowMuchVisibleIsIt  = .12f; //the bigger the value, the da
   CABasicAnimation* pathFillAnimation = [CABasicAnimation animationWithKeyPath:NSStringFromSelector(@selector(path))];
   pathFillAnimation.fromValue = (id)([self from].CGPath);
   pathFillAnimation.toValue = (id)([self to].CGPath);
-  pathFillAnimation.duration = 10.f;
+  pathFillAnimation.duration = kHowLongWouldItTake;
   pathFillAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
   //pathFillAnimation.fillMode = kCAFillModeForwards;
   pathFillAnimation.removedOnCompletion = YES;
@@ -168,19 +185,57 @@ static const CGFloat kHowMuchVisibleIsIt  = .12f; //the bigger the value, the da
   [shapeLayer addAnimation:pathFillAnimation forKey:@"Path"];
   [CATransaction commit];
 }
+
+
+- (CAShapeLayer*)createSecondaryBar {
+  CAShapeLayer* bar = [CAShapeLayer layer];
+  [self initShapeLayer:bar 
+                 block:^(CAShapeLayer* shapeLayer){
+                   CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+                   CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+                   
+                   CGFloat factor = .1*kHowBigIsIt;
+                   const CGFloat howBigIsIt = kHowBigIsIt + factor;
+                   
+                   shapeLayer.fillColor = [BOColor skyBlueColorVeryFaint].CGColor;
+                   
+                   CGFloat x = (screenWidth - kHowThickIsIt)/2.f;
+                   CGFloat y = (screenHeight - howBigIsIt)/2.f;
+                   CGFloat width = kHowThickIsIt;
+                   CGFloat height = howBigIsIt;
+                   CGRect rect = CGRectMake(x, y, width, height);
+                   self.rectSecondaryBarFrame = rect;
+                   UIBezierPath* path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:width/2.f];
+                   shapeLayer.path = path.CGPath;
+                 }];
+  return bar;
+}
+
 - (void)createBar {
-  CAShapeLayer* bar = [self createMainBar];
-  [self addShadowToShapeLayer:bar];
-  [self addFillAnimation:bar];
-
-  [self.view.layer addSublayer:bar];
+  {//main bar}
+    CAShapeLayer* bar = [self createMainBar];
+    [self addShadowToShapeLayer:bar];
+    [self addFillAnimation:bar];
+    [self.view.layer addSublayer:bar];
+  }
+  {
+    //bar with light opacity shadow overlapping main bar
+    CAShapeLayer* bar = [self createSecondaryBar];
+    [self.view.layer addSublayer:bar];
+  }
 }
+
 - (void)testShapeLayerOval {
-  [NSTimer scheduledTimerWithTimeInterval:1.f repeats:NO block:^(NSTimer * _Nonnull timer) {
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0. * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
     [self createBar];
-  }];
+  });
 }
 
+- (void)testBOBar {
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5. * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    [self.boBar createBar];
+  });
+}
 
 
 
