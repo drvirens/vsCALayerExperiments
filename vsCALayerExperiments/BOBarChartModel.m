@@ -9,9 +9,14 @@
 #import "BOBarChartModel.h"
 
 @interface BOBarChartModel ()
-@property (nonatomic, readwrite) NSArray<BOBarModel*>* barModels;
+@property (nonatomic, copy, readwrite) NSArray<BOBarModel*>* barModels;
 @end
 
 @implementation BOBarChartModel
-
+- (instancetype)initWithBarModels:(NSArray<BOBarModel*>*)barModels {
+  if (self = [super init]) {
+    _barModels = barModels;
+  }
+  return self;
+}
 @end

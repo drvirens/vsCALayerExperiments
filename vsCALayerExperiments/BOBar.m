@@ -42,14 +42,17 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   if (self = [super init]) {
     _title = barModel.title;
     _subTitle = barModel.subTitle;
+    _progress = barModel.progress;
+    _boBarColor = barModel.boBarColor;
     [self commonInit];
   }
   return self;
 }
 
-- (void)createBarWithProgress:(CGFloat)progress color:(UIColor*)color {
-  self.progress = progress;
-  self.boBarColor = color;
+- (void)showBar {
+//- (void)createBarWithProgress:(CGFloat)progress color:(UIColor*)color {
+//  self.progress = progress;
+//  self.boBarColor = color;
   
   {//main bar
     CAShapeLayer* bar = [self createMainBar];

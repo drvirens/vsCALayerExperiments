@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class BOBarChartModel;
+
 @interface BOBarChart : UIView
-- (instancetype)initWith;
+- (instancetype)initWithWithChartModel:(BOBarChartModel*)chartModel;
+- (void)showBars;
 @end

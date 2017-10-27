@@ -12,7 +12,7 @@
 @class BOBarModel;
 
 @interface BOBarChartModel : NSObject
-@property (nonatomic, readonly) NSArray<BOBarModel*>* barModels;
+@property (nonatomic, copy, readonly) NSArray<BOBarModel*>* barModels;
 
 - (instancetype)initWithBarModels:(NSArray<BOBarModel*>*)barModels;
 

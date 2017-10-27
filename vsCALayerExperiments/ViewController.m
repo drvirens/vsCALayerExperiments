@@ -10,6 +10,10 @@
 #import "BOBar.h"
 #import "BOColor.h"
 #import "BOBarModel.h"
+#import "BOBarChartModel.h"
+#import "BOBarChart.h"
+
+#define USE_BO_CHART_BAR_VIEW 1
 
 @interface ViewController ()
 @property (nonatomic) CGRect rectBarFrame;
@@ -29,42 +33,41 @@
   
   self.view.backgroundColor = [UIColor colorWithRed:102.f/255. green:51./255. blue:153./255. alpha:1.f];
 //  self.view.backgroundColor = [UIColor whiteColor]; 
-                               
-  
-  //[self testShapeLayerOval];
-  
-//  [self testBasics];
-//  [self testShapeWithRoundedRect];
 
 }
 
 - (void)viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
   
+#if USE_BO_CHART_BAR_VIEW
+#else
   [self addTWOBOBar];
-  
+#endif
 }
 
 - (void)viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
+#if USE_BO_CHART_BAR_VIEW
+#else
   [self showBOBars];
+#endif
 }
 
 - (void)showBOBars {
-  [self.boBarOne createBarWithProgress:self.model1.progress color:self.model1.boBarColor];
-  [self.boBarTwo createBarWithProgress:self.model2.progress color:self.model2.boBarColor];
+  [self.boBarOne showBar];
+  [self.boBarTwo showBar];
 }
 
 
 - (BOBar* )addTWOBOBar {
-  self.model1 = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"82%" progress:.82f boBarColor:[BOColor skyBlueColor]];
+  self.model1 = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"82%" progress:.42f boBarColor:[BOColor skyBlueColor]];
   BOBar* boBarOne = [[BOBar alloc] initWithBarModel:self.model1];
   //boBarOne.backgroundColor = [UIColor blueColor];
   self.boBarOne = boBarOne;
   [self.view addSubview:boBarOne];
   
   
-  self.model2 = [[BOBarModel alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"10%" progress:0.1f boBarColor:[BOColor pinkColor]];
+  self.model2 = [[BOBarModel alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"10%" progress:0.89f boBarColor:[BOColor pinkColor]];
   BOBar* boBarTwo = [[BOBar alloc] initWithBarModel:self.model2];
   //boBarTwo.backgroundColor = [UIColor redColor];
   self.boBarTwo = boBarTwo;

@@ -13,6 +13,6 @@
 @interface BOBar : UIView
 
 - (instancetype)initWithBarModel:(BOBarModel*)barModel;
-- (void)createBarWithProgress:(CGFloat)progress color:(UIColor*)color;
+- (void)showBar;
 
 @end
