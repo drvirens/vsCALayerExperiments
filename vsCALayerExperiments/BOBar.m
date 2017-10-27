@@ -16,7 +16,7 @@ static const CGFloat kHowBigIsItsShadow   = 0.5f; //the bigger the value, the lo
 static const CGFloat kHowBlurIsIt         = 10.f; //the biiger the value, the blurreir it is
 static const CGFloat kHowMuchVisibleIsIt  = .14f; //the bigger the value, the darker the shadow
 
-static const CGFloat kHowLongWouldItTake  = 15.5f; //animation duration
+static const CGFloat kHowLongWouldItTake  = 0.5f; //animation duration
 
 
 @interface BOBar ()
@@ -36,7 +36,7 @@ static const CGFloat kHowLongWouldItTake  = 15.5f; //animation duration
 }
 - (void)commonInit {
   self.translatesAutoresizingMaskIntoConstraints = NO;
-  self.backgroundColor = [UIColor whiteColor];
+  self.backgroundColor = [UIColor clearColor];
   NSString* keypath = @"bounds";
   [self addObserver:self forKeyPath:keypath options:NSKeyValueObservingOptionNew context:nil];
 }

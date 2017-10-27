@@ -23,8 +23,8 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-//  self.view.backgroundColor = [UIColor colorWithRed:102.f/255. green:51./255. blue:153./255. alpha:1.f];
-  self.view.backgroundColor = [UIColor whiteColor]; 
+  self.view.backgroundColor = [UIColor colorWithRed:102.f/255. green:51./255. blue:153./255. alpha:1.f];
+//  self.view.backgroundColor = [UIColor whiteColor]; 
                                
   
   //[self testShapeLayerOval];
