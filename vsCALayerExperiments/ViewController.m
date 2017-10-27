@@ -42,13 +42,14 @@
 
 - (void)addBOBar {
   [self.view addSubview:self.boBar];
-  
+  static const CGFloat kVerticalMargin = 100.f;
+  static const CGFloat kHorizontalMargin = 140.f;
   UIView* parent = self.view;
   //constraints
-  NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:self.boBar attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:20.f];
-  NSLayoutConstraint* bottom = [NSLayoutConstraint constraintWithItem:self.boBar attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeBottom multiplier:1.f constant:-20.f];
-  NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:self.boBar attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeLeading multiplier:1.f constant:20.f];
-  NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:self.boBar attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTrailing multiplier:1.f constant:-20.f];
+  NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:self.boBar attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:kVerticalMargin];
+  NSLayoutConstraint* bottom = [NSLayoutConstraint constraintWithItem:self.boBar attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeBottom multiplier:1.f constant:-kVerticalMargin];
+  NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:self.boBar attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeLeading multiplier:1.f constant:kHorizontalMargin];
+  NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:self.boBar attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTrailing multiplier:1.f constant:-kHorizontalMargin];
   
   [parent addConstraints:@[top, bottom, left, right]];
 }
