@@ -184,31 +184,34 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
                  }];
   return bar;
 }
-
-- (UIBezierPath*)from {
-  CGFloat cornerRadius = self.rectBarFrame.size.width / 2.f;
+- (CGRect)fromRect {
   CGFloat screenHeight = self.rectBarFrame.size.height; 
   CGFloat y = screenHeight + self.rectBarFrame.origin.y;
   CGRect rect = CGRectMake(self.rectBarFrame.origin.x, 
                            y, 
                            self.rectBarFrame.size.width, 
                            0.f);
+  return rect;
+}
+- (CGRect)toRect {
+  CGFloat screenHeight = self.rectBarFrame.size.height * (self.progress);
+  CGFloat y = self.rectBarFrame.origin.y + (self.rectBarFrame.size.height - screenHeight); 
+  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, 
+                           y,  
+                           self.rectBarFrame.size.width, 
+                           screenHeight
+                           ); 
+  return rect;
+}
+- (UIBezierPath*)from {
+  CGFloat cornerRadius = self.rectBarFrame.size.width / 2.f;
+  CGRect rect = [self fromRect];
   UIBezierPath* nofill = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:cornerRadius];
   return nofill;
 }
 - (UIBezierPath*)to {
   CGFloat cornerRadius = self.rectBarFrame.size.width / 2.f;
-  
-  
-  CGFloat screenHeight = self.rectBarFrame.size.height * (self.progress);
-  CGFloat y = self.rectBarFrame.origin.y + (self.rectBarFrame.size.height - screenHeight); 
-  
-  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, 
-                           y,  
-                           self.rectBarFrame.size.width, 
-                           //self.rectBarFrame.size.height
-                           screenHeight
-                           );
+  CGRect rect = [self toRect];
   UIBezierPath* f = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:cornerRadius];
   return f;
 }
@@ -216,15 +219,18 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
 - (UIBezierPath*)shadowFrom {
   CGFloat cornerRadius = self.rectBarFrame.size.width / 2.f;
   UIRectCorner rectCorner = UIRectCornerAllCorners;
-  CGFloat screenHeight = self.rectBarFrame.size.height; 
-  CGFloat y = screenHeight + self.rectBarFrame.origin.y + (self.howBigIsItsShadow / 2.f);
   
+//  CGFloat screenHeight = self.rectBarFrame.size.height; 
+//  CGFloat y = screenHeight + self.rectBarFrame.origin.y + (self.howBigIsItsShadow / 2.f);
+//  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, 
+//                           y, 
+//                           self.rectBarFrame.size.width, 
+//                           0.f
+//                           );
+  CGRect r = [self fromRect];
+  CGFloat y = r.origin.y + (self.howBigIsItsShadow / 2.f);
+  CGRect rect = CGRectMake(r.origin.x, y, r.size.width, r.size.height);
   
-  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, 
-                           y, 
-                           self.rectBarFrame.size.width, 
-                           0.f
-                           );
   UIBezierPath* shadowPath = [UIBezierPath bezierPathWithRoundedRect:rect 
                                                    byRoundingCorners:rectCorner 
                                                          cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
@@ -234,26 +240,24 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   CGFloat cornerRadius = self.rectBarFrame.size.width / 2.f;
   UIRectCorner rectCorner = UIRectCornerAllCorners;
   CGFloat y = 0; 
-  y = self.rectBarFrame.origin.y - (self.howBigIsItsShadow / 2.f); 
   
+//  y = self.rectBarFrame.origin.y - (self.howBigIsItsShadow / 2.f); 
+//  CGFloat screenHeight = self.rectBarFrame.size.height + self.howBigIsItsShadow;
+//  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, 
+//                           y, 
+//                           self.rectBarFrame.size.width, 
+//                           screenHeight 
+//                           );
+  CGRect r = [self toRect];
+  y = r.origin.y - (self.howBigIsItsShadow / 2.f); 
+  CGFloat h = r.size.height + self.howBigIsItsShadow;
+  CGRect rect = CGRectMake(r.origin.x, y, r.size.width, h);
   
-  
-  
-  //CGFloat screenHeight = self.rectBarFrame.size.height; 
-  CGFloat screenHeight = self.rectBarFrame.size.height + self.howBigIsItsShadow;
-
-  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, 
-                           y, 
-                           self.rectBarFrame.size.width, 
-                           screenHeight 
-                           );
   UIBezierPath* shadowPath = [UIBezierPath bezierPathWithRoundedRect:rect 
                                                    byRoundingCorners:rectCorner 
                                                          cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
   return shadowPath;
 }
-
-
 
 - (void)addFillAnimation:(CAShapeLayer*)shapeLayer {
   [CATransaction begin];
