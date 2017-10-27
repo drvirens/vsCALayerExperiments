@@ -32,7 +32,7 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  self.view.backgroundColor = [UIColor colorWithRed:102.f/255. green:51./255. blue:153./255. alpha:1.f];
+  self.view.backgroundColor = [BOColor darkPurple];
 //  self.view.backgroundColor = [UIColor whiteColor]; 
 
 }
@@ -60,8 +60,8 @@
 - (void)addBarCHART {
   BOBarModel* model1 = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"92%"     progress:.92f boBarColor:[BOColor skyBlueColor]];
   BOBarModel* model2 = [[BOBarModel alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"10%" progress:.10f boBarColor:[BOColor pinkColor]];
-  BOBarModel* model3 = [[BOBarModel alloc] initWithTitle:@"YOLANDA" subTitle:@"4%"          progress:.04f boBarColor:[BOColor skyBlueColor]];
-  BOBarModel* model4 = [[BOBarModel alloc] initWithTitle:@"BRENT CORRIGAN" subTitle:@"43%"  progress:.43f boBarColor:[BOColor pinkColor]];
+  BOBarModel* model3 = [[BOBarModel alloc] initWithTitle:@"YOLANDA" subTitle:@"4%"          progress:.04f boBarColor:[BOColor brightGreen]];
+  BOBarModel* model4 = [[BOBarModel alloc] initWithTitle:@"BRENT CORRIGAN" subTitle:@"43%"  progress:.43f boBarColor:[BOColor brightYellow]];
   
   
   BOBarChartModel* barChartModel = [[BOBarChartModel alloc] initWithBarModels:@[model1, model2, model3, model4]];
@@ -70,7 +70,7 @@
   
   [self.view addSubview:barChartView];
   
-  static const CGFloat kVerticalMargin = 100.f;
+  
   UIView* parent = self.view;
   
   
