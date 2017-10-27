@@ -66,24 +66,35 @@
   static const CGFloat kHorizontalMargin = 70.f;
   UIView* parent = self.view;
   
+//  //constraints
+//  {
+//  NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:kVerticalMargin];
+//  NSLayoutConstraint* bottom = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeBottom multiplier:1.f constant:-kVerticalMargin];
+//  NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f];
+//  NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:boBarTwo attribute:NSLayoutAttributeLeading multiplier:1.f constant:-0.];
+//  
+//  [parent addConstraints:@[top, bottom, left, right]];
+//  }
+//  
+//  {
+//    NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:boBarTwo attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:kVerticalMargin];
+//    NSLayoutConstraint* bottom = [NSLayoutConstraint constraintWithItem:boBarTwo attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeBottom multiplier:1.f constant:-kVerticalMargin];
+//    NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:boBarTwo attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:boBarOne attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0];
+//    NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:boBarTwo attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTrailing multiplier:1.f constant:-0.];
+//    
+//    [parent addConstraints:@[top, bottom, left, right]];
+//  }
+  
   //constraints
   {
-  NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:kVerticalMargin];
-  NSLayoutConstraint* bottom = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeBottom multiplier:1.f constant:-kVerticalMargin];
-  NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f];
-  NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:boBarTwo attribute:NSLayoutAttributeLeading multiplier:1.f constant:-0.];
-  
-  [parent addConstraints:@[top, bottom, left, right]];
-  }
-  
-  {
-    NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:boBarTwo attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:kVerticalMargin];
-    NSLayoutConstraint* bottom = [NSLayoutConstraint constraintWithItem:boBarTwo attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeBottom multiplier:1.f constant:-kVerticalMargin];
-    NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:boBarTwo attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:boBarOne attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0];
-    NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:boBarTwo attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTrailing multiplier:1.f constant:-0.];
+    NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:kVerticalMargin];
+    NSLayoutConstraint* bottom = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeBottom multiplier:1.f constant:-kVerticalMargin];
+    NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f];
+    NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTrailing multiplier:1.f constant:-0.];
     
     [parent addConstraints:@[top, bottom, left, right]];
   }
+  
 
   
   return boBarOne;
