@@ -6,16 +6,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "vsCALayerExperiments/BOBar.m"
-            timestampString = "530767756.668354"
+            timestampString = "530770580.013819"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "254"
-            endingLineNumber = "254"
-            landmarkName = "-observeValueForKeyPath:ofObject:change:context:"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
+            landmarkName = "-shadowFrom"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
