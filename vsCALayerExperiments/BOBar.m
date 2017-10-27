@@ -53,27 +53,27 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
 //  }
   {//main bar
     CAShapeLayer* bar = [self createMainBar];
-    //[self addShadowToShapeLayer:bar];
+    [self addShadowToShapeLayer:bar];
     [self addFillAnimation:bar];
     [self.layer addSublayer:bar];
   }
-//  {
-//    //bar with light opacity shadow overlapping main bar
-//    CAShapeLayer* bar = [self createSecondaryBar];
-//    [self.layer addSublayer:bar];
-//  }
-//  {
-//    //add subtitle
-//    CATextLayer* subtitle = [self createTopTextLabel:self.subTitle];
-//    [self positionTopTextLabel:subtitle];
-//    [self.layer addSublayer:subtitle];
-//  }
-//  {
-//    //add title
-//    CATextLayer* title = [self createBottomTextLabel:self.title];
-//    [self positionBottomTextLabel:title];
-//    [self.layer addSublayer:title];
-//  }
+  {
+    //bar with light opacity shadow overlapping main bar
+    CAShapeLayer* bar = [self createSecondaryBar];
+    [self.layer addSublayer:bar];
+  }
+  {
+    //add subtitle
+    CATextLayer* subtitle = [self createTopTextLabel:self.subTitle];
+    [self positionTopTextLabel:subtitle];
+    [self.layer addSublayer:subtitle];
+  }
+  {
+    //add title
+    CATextLayer* title = [self createBottomTextLabel:self.title];
+    [self positionBottomTextLabel:title];
+    [self.layer addSublayer:title];
+  }
 }
 
 
