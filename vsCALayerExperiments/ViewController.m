@@ -21,19 +21,23 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  self.view.backgroundColor = [UIColor colorWithRed:102.f/255. green:51./255. blue:153./255. alpha:1.f];
-  //[self testBasics];
-  //[self testShapeWithRoundedRect];
+//  self.view.backgroundColor = [UIColor colorWithRed:102.f/255. green:51./255. blue:153./255. alpha:1.f];
+  self.view.backgroundColor = [UIColor whiteColor]; 
+                               
   
-//  [self testShapeLayerOval];
+  //[self testShapeLayerOval];
+  
+//  [self testBasics];
+//  [self testShapeWithRoundedRect];
+
 }
 
 - (void)viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
   [self addBOBar];
   [self testBOBar];
-
 }
+
 - (void)addBOBar {
   [self.view addSubview:self.boBar];
   
@@ -73,7 +77,7 @@ static const CGFloat kHowBigIsItsShadow   = 100.f; //the bigger the value, the l
 static const CGFloat kHowBlurIsIt         = 10.f; //the biiger the value, the blurreir it is
 static const CGFloat kHowMuchVisibleIsIt  = .12f; //the bigger the value, the darker the shadow
 
-static const CGFloat kHowLongWouldItTake  = 0.5f; //animation duration
+static const CGFloat kHowLongWouldItTake  = 5.5f; //animation duration
 
 #pragma mark - shadow
 - (void)animateShadowPath:(CAShapeLayer*)shapeLayer from:(CGPathRef)from to:(CGPathRef)to {
@@ -231,7 +235,7 @@ static const CGFloat kHowLongWouldItTake  = 0.5f; //animation duration
 }
 
 - (void)testBOBar {
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1. * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0. * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
     [self.boBar createBar];
   });
 }

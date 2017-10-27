@@ -10,20 +10,19 @@
 #import "BOColor.h"
 
 
-//static const CGFloat kHowThickIsIt = 50.f;
-//static const CGFloat kHowBigIsIt = 300.f;
+static const CGFloat kBackgroundBarHeightIsMoreByThisFactor = .1f; //20% more than real bar height. example, if real bar height is 100, bgBar will be 120
 
-static const CGFloat kHowBigIsItsShadow   = 100.f; //the bigger the value, the longer the shadow on top
+static const CGFloat kHowBigIsItsShadow   = 0.5f; //the bigger the value, the longer the shadow on top
 static const CGFloat kHowBlurIsIt         = 10.f; //the biiger the value, the blurreir it is
 static const CGFloat kHowMuchVisibleIsIt  = .14f; //the bigger the value, the darker the shadow
 
-static const CGFloat kHowLongWouldItTake  = 5.5f; //animation duration
+static const CGFloat kHowLongWouldItTake  = 15.5f; //animation duration
 
 
 @interface BOBar ()
 @property (nonatomic) CGRect rectBarFrame;
 @property (nonatomic) CGRect rectSecondaryBarFrame;
-
+@property (nonatomic) CGFloat howBigIsItsShadow;
 @end
 
 @implementation BOBar
@@ -66,13 +65,13 @@ static const CGFloat kHowLongWouldItTake  = 5.5f; //animation duration
 
 - (UIBezierPath*)shadowFrom {
   UIRectCorner rectCorner = UIRectCornerAllCorners;
-  CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
-  CGFloat y = screenHeight - self.rectBarFrame.size.height - kHowBigIsItsShadow;
+  CGFloat screenHeight = self.rectBarFrame.size.height; //[UIScreen mainScreen].bounds.size.height;
+  CGFloat y = screenHeight - self.rectBarFrame.size.height - self.howBigIsItsShadow;
   
   CGRect rect = CGRectMake(self.rectBarFrame.origin.x, 
                            y, 
                            self.rectBarFrame.size.width, 
-                           (2.f * kHowBigIsItsShadow) 
+                           (2.f * self.howBigIsItsShadow) 
                            );
   UIBezierPath* shadowPath = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:rectCorner cornerRadii:CGSizeMake(10.f, 10.f)];
   return shadowPath;
@@ -80,7 +79,7 @@ static const CGFloat kHowLongWouldItTake  = 5.5f; //animation duration
 
 - (UIBezierPath*)shadowTo {
   UIRectCorner rectCorner = UIRectCornerAllCorners;
-  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, self.rectBarFrame.origin.y - kHowBigIsItsShadow, self.rectBarFrame.size.width, self.rectBarFrame.size.height + (2.f * kHowBigIsItsShadow) );
+  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, self.rectBarFrame.origin.y - self.howBigIsItsShadow, self.rectBarFrame.size.width, self.rectBarFrame.size.height + (2.f * self.howBigIsItsShadow) );
   UIBezierPath* shadowPath = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:rectCorner cornerRadii:CGSizeMake(10.f, 10.f)];
   return shadowPath;
 }
@@ -124,7 +123,7 @@ static const CGFloat kHowLongWouldItTake  = 5.5f; //animation duration
 
 - (UIBezierPath*)from {
   CGFloat cornerRadius = self.rectBarFrame.size.width / 2.f;
-  CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+  CGFloat screenHeight = self.rectBarFrame.size.height; //[UIScreen mainScreen].bounds.size.height;
   CGFloat y = screenHeight - self.rectBarFrame.size.height;
   CGRect rect = CGRectMake(self.rectBarFrame.origin.x, y, self.rectBarFrame.size.width, 0);
   UIBezierPath* nofill = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:cornerRadius];
@@ -198,15 +197,17 @@ static const CGFloat kHowLongWouldItTake  = 5.5f; //animation duration
   }
 }
 - (CGFloat)layerHorizontalMarginPercent {
+//  return 0.2f;
   return 0.2f;
 }
 - (CGFloat)layerVerticalMarginPercent {
-  return 0.5f;
+//  return 0.5f;
+  return .2f;
 }
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
   NSLog(@"observeValueForKeyPath for BOBar called");
   if ([keyPath isEqualToString:@"bounds"]) {
-    self.layer.frame = self.bounds;
+    //self.layer.frame = self.bounds;
     
     //adjust the height and width considering the shadow
     CGFloat marginPercentHorizontal = [self layerHorizontalMarginPercent];
@@ -214,16 +215,38 @@ static const CGFloat kHowLongWouldItTake  = 5.5f; //animation duration
     CGFloat ourWidth = self.bounds.size.width;
     CGFloat ourHeight = self.bounds.size.height;
     
-    CGFloat x = self.frame.origin.x;
-    CGFloat y = self.frame.origin.y;
-    CGFloat width = ourWidth - ( ourWidth * marginPercentHorizontal );
-    CGFloat height = ourHeight - ( ourHeight * marginPercentVertical );
+    CGFloat widthMargin = ourWidth * marginPercentHorizontal;
+    CGFloat heightMargin = ourHeight * marginPercentVertical;
+    
+    
+    CGFloat shadowHeight = ourHeight - heightMargin;
+    self.howBigIsItsShadow = shadowHeight * kHowBigIsItsShadow;
+    
+    CGFloat x = self.bounds.origin.x + widthMargin;
+    CGFloat y = self.bounds.origin.y + heightMargin; 
+    CGFloat width = ourWidth - ( 2.f * widthMargin );
+    CGFloat height = ourHeight - ( 2.f * heightMargin );
+    
     CGRect adjustedRect = CGRectMake(x, y, width, height);
     self.rectBarFrame = adjustedRect;
-    self.rectSecondaryBarFrame = adjustedRect;
     
-//    self.rectBarFrame = self.frame;
-//    self.rectSecondaryBarFrame = self.frame;
+    
+    //
+    // ---
+    //
+    CGFloat bgBarHeightFactor = kBackgroundBarHeightIsMoreByThisFactor * height;
+    CGFloat bgBarHeight = 2.f * bgBarHeightFactor;
+    
+    CGFloat bgBarX = adjustedRect.origin.x;
+    CGFloat bgBarY = adjustedRect.origin.y - bgBarHeightFactor;
+    CGFloat bgBarWidth = adjustedRect.size.width;
+    CGFloat bgComputedBarHeight = adjustedRect.size.height + bgBarHeight;
+    
+    CGRect rectSecondaryBarFrame = CGRectMake(bgBarX, 
+                                              bgBarY, 
+                                              bgBarWidth, 
+                                              bgComputedBarHeight);
+    self.rectSecondaryBarFrame = rectSecondaryBarFrame;
   } else {
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
   }
