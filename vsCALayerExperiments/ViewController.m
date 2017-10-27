@@ -58,10 +58,13 @@
 
 #pragma mark - bar chart test
 - (void)addBarCHART {
-  BOBarModel* model1 = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"82%" progress:.42f boBarColor:[BOColor skyBlueColor]];
-  BOBarModel* model2 = [[BOBarModel alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"10%" progress:0.89f boBarColor:[BOColor pinkColor]];
+  BOBarModel* model1 = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"92%"     progress:.92f boBarColor:[BOColor skyBlueColor]];
+  BOBarModel* model2 = [[BOBarModel alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"10%" progress:.10f boBarColor:[BOColor pinkColor]];
+  BOBarModel* model3 = [[BOBarModel alloc] initWithTitle:@"YOLANDA" subTitle:@"4%"          progress:.04f boBarColor:[BOColor skyBlueColor]];
+  BOBarModel* model4 = [[BOBarModel alloc] initWithTitle:@"BRENT CORRIGAN" subTitle:@"43%"  progress:.43f boBarColor:[BOColor pinkColor]];
   
-  BOBarChartModel* barChartModel = [[BOBarChartModel alloc] initWithBarModels:@[model1, model2]];
+  
+  BOBarChartModel* barChartModel = [[BOBarChartModel alloc] initWithBarModels:@[model1, model2, model3, model4]];
   BOBarChart* barChartView = [[BOBarChart alloc] initWithWithChartModel:barChartModel];
   self.barChartView = barChartView;
   
