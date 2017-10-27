@@ -30,6 +30,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
 @property (nonatomic) CGFloat heightMargin;
 @property (nonatomic, copy, readwrite) NSString* title;
 @property (nonatomic, copy, readwrite) NSString* subTitle;
+@property (nonatomic, readwrite) CGFloat progress;
 @end
 
 @implementation BOBar
@@ -44,30 +45,35 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   return self;
 }
 
-- (void)createBar {
+- (void)createBarWithProgress:(CGFloat)progress {
+  self.progress = progress;
+  
+//  if (self.progress > 0.f) {
+//    [self computeVisibleAreaRect];
+//  }
   {//main bar
     CAShapeLayer* bar = [self createMainBar];
-    [self addShadowToShapeLayer:bar];
+    //[self addShadowToShapeLayer:bar];
     [self addFillAnimation:bar];
     [self.layer addSublayer:bar];
   }
-  {
-    //bar with light opacity shadow overlapping main bar
-    CAShapeLayer* bar = [self createSecondaryBar];
-    [self.layer addSublayer:bar];
-  }
-  {
-    //add subtitle
-    CATextLayer* subtitle = [self createSubText:self.subTitle];
-    [self positionSubtitle:subtitle];
-    [self.layer addSublayer:subtitle];
-  }
-  {
-    //add title
-    CATextLayer* title = [self createText:self.title];
-    [self positionTitle:title];
-    [self.layer addSublayer:title];
-  }
+//  {
+//    //bar with light opacity shadow overlapping main bar
+//    CAShapeLayer* bar = [self createSecondaryBar];
+//    [self.layer addSublayer:bar];
+//  }
+//  {
+//    //add subtitle
+//    CATextLayer* subtitle = [self createTopTextLabel:self.subTitle];
+//    [self positionTopTextLabel:subtitle];
+//    [self.layer addSublayer:subtitle];
+//  }
+//  {
+//    //add title
+//    CATextLayer* title = [self createBottomTextLabel:self.title];
+//    [self positionBottomTextLabel:title];
+//    [self.layer addSublayer:title];
+//  }
 }
 
 
@@ -79,7 +85,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
 }
 
 #pragma mark - text
-- (CATextLayer*)createText:(NSString*)title {
+- (CATextLayer*)createBottomTextLabel:(NSString*)title {
   CATextLayer* text = [CATextLayer layer];
   //XXX: Use attributed string
   text.string = title;
@@ -90,7 +96,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   text.wrapped = YES;
   return text;
 }
-- (CATextLayer*)createSubText:(NSString*)title {
+- (CATextLayer*)createTopTextLabel:(NSString*)title {
   CATextLayer* text = [CATextLayer layer];
   //XXX: Use attributed string
   text.string = title;
@@ -102,7 +108,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   return text;
 }
 
-- (void)positionSubtitle:(CATextLayer*)text {
+- (void)positionTopTextLabel:(CATextLayer*)text {
   {
     CGFloat width = self.bounds.size.width;
     CGFloat height = 2.f * kMarginBottomSubTitle;
@@ -112,11 +118,11 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   }
   
   {
-    CGFloat y = self.bounds.size.height - kMarginBottomSubTitle;
+    CGFloat y = self.bounds.size.height - (3.f * kMarginBottomSubTitle);
     text.position = CGPointMake(self.bounds.size.width/2.f, y);
   }
 }
-- (void)positionTitle:(CATextLayer*)text {
+- (void)positionBottomTextLabel:(CATextLayer*)text {
   {
     CGFloat width = self.bounds.size.width;
     CGFloat height = 2.f * kMarginBottomSubTitle;
@@ -126,7 +132,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   }
   
   {
-    CGFloat y = self.bounds.size.height + kMarginBottomSubTitle; // - (3.f * kMarginBottomSubTitle);
+    CGFloat y = self.bounds.size.height - kMarginBottomSubTitle; 
     text.position = CGPointMake(self.bounds.size.width/2.f, y);
   }
 }
@@ -173,12 +179,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   [self initShapeLayer:bar 
                  block:^(CAShapeLayer* shapeLayer){
                    shapeLayer.fillColor = [BOColor skyBlueColor].CGColor;
-                   CGFloat width = self.bounds.size.width;
-                   
-                   CGRect rect = self.rectBarFrame;
-                   NSLog(@"FRAME for BOBar is [%@]", NSStringFromCGRect(self.frame));
-                   NSLog(@"So rectBarFrame here is [%@]", NSStringFromCGRect(self.rectBarFrame));
-                   UIBezierPath* path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:width/2.f];
+                   UIBezierPath* path = [self to];
                    shapeLayer.path = path.CGPath;
                  }];
   return bar;
@@ -197,11 +198,17 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
 }
 - (UIBezierPath*)to {
   CGFloat cornerRadius = self.rectBarFrame.size.width / 2.f;
-  CGFloat y = self.rectBarFrame.origin.y; 
+  
+  
+  CGFloat screenHeight = self.rectBarFrame.size.height * (self.progress);
+  CGFloat y = self.rectBarFrame.origin.y + (self.rectBarFrame.size.height - screenHeight); 
+  
   CGRect rect = CGRectMake(self.rectBarFrame.origin.x, 
                            y,  
                            self.rectBarFrame.size.width, 
-                           self.rectBarFrame.size.height);
+                           //self.rectBarFrame.size.height
+                           screenHeight
+                           );
   UIBezierPath* f = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:cornerRadius];
   return f;
 }
@@ -228,6 +235,10 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   UIRectCorner rectCorner = UIRectCornerAllCorners;
   CGFloat y = 0; 
   y = self.rectBarFrame.origin.y - (self.howBigIsItsShadow / 2.f); 
+  
+  
+  
+  
   //CGFloat screenHeight = self.rectBarFrame.size.height; 
   CGFloat screenHeight = self.rectBarFrame.size.height + self.howBigIsItsShadow;
 
@@ -252,7 +263,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   pathFillAnimation.duration = kHowLongWouldItTake;
   pathFillAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
   //pathFillAnimation.fillMode = kCAFillModeForwards;
-  pathFillAnimation.removedOnCompletion = YES;
+  pathFillAnimation.removedOnCompletion = NO;
   
   [shapeLayer addAnimation:pathFillAnimation forKey:@"Path"];
   [CATransaction commit];
@@ -293,52 +304,109 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
 - (CGFloat)layerVerticalMarginPercent {
   return .2f;
 }
+//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+//  NSLog(@"observeValueForKeyPath for BOBar called");
+//  if ([keyPath isEqualToString:@"bounds"]) {
+//    //self.layer.frame = self.bounds;
+//    
+//    //adjust the height and width considering the shadow
+//    CGFloat marginPercentHorizontal = [self layerHorizontalMarginPercent];
+//    CGFloat marginPercentVertical = [self layerVerticalMarginPercent];
+//    CGFloat ourWidth = self.bounds.size.width;
+//    CGFloat ourHeight = self.bounds.size.height;
+//    
+//    CGFloat widthMargin = ourWidth * marginPercentHorizontal;
+//    CGFloat heightMargin = ourHeight * marginPercentVertical;
+//    self.heightMargin = heightMargin;
+//    
+//    CGFloat shadowHeight = ourHeight - heightMargin;
+//    self.howBigIsItsShadow = shadowHeight * kHowBigIsItsShadow;
+//    
+//    CGFloat x = self.bounds.origin.x + widthMargin;
+//    CGFloat y = self.bounds.origin.y + heightMargin; 
+//    CGFloat width = ourWidth - ( 2.f * widthMargin );
+//    CGFloat height = ourHeight - ( 2.f * heightMargin );
+//    
+//    CGRect adjustedRect = CGRectMake(x, y, width, height);
+//    self.rectBarFrame = adjustedRect;
+//    
+//    
+//    //
+//    // ---
+//    //
+//    CGFloat bgBarHeightFactor = kBackgroundBarHeightIsMoreByThisFactor * height;
+//    CGFloat bgBarHeight = 2.f * bgBarHeightFactor;
+//    
+//    CGFloat bgBarX = adjustedRect.origin.x;
+//    CGFloat bgBarY = adjustedRect.origin.y - bgBarHeightFactor;
+//    CGFloat bgBarWidth = adjustedRect.size.width;
+//    CGFloat bgComputedBarHeight = adjustedRect.size.height + bgBarHeight;
+//    
+//    CGRect rectSecondaryBarFrame = CGRectMake(bgBarX, 
+//                                              bgBarY, 
+//                                              bgBarWidth, 
+//                                              bgComputedBarHeight);
+//    self.rectSecondaryBarFrame = rectSecondaryBarFrame;
+//  } else {
+//    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+//  }
+//}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
   NSLog(@"observeValueForKeyPath for BOBar called");
   if ([keyPath isEqualToString:@"bounds"]) {
-    //self.layer.frame = self.bounds;
+    self.layer.frame = self.bounds;
     
-    //adjust the height and width considering the shadow
-    CGFloat marginPercentHorizontal = [self layerHorizontalMarginPercent];
-    CGFloat marginPercentVertical = [self layerVerticalMarginPercent];
-    CGFloat ourWidth = self.bounds.size.width;
-    CGFloat ourHeight = self.bounds.size.height;
-    
-    CGFloat widthMargin = ourWidth * marginPercentHorizontal;
-    CGFloat heightMargin = ourHeight * marginPercentVertical;
-    self.heightMargin = heightMargin;
-    
-    CGFloat shadowHeight = ourHeight - heightMargin;
-    self.howBigIsItsShadow = shadowHeight * kHowBigIsItsShadow;
-    
-    CGFloat x = self.bounds.origin.x + widthMargin;
-    CGFloat y = self.bounds.origin.y + heightMargin; 
-    CGFloat width = ourWidth - ( 2.f * widthMargin );
-    CGFloat height = ourHeight - ( 2.f * heightMargin );
-    
-    CGRect adjustedRect = CGRectMake(x, y, width, height);
-    self.rectBarFrame = adjustedRect;
-    
-    
-    //
-    // ---
-    //
-    CGFloat bgBarHeightFactor = kBackgroundBarHeightIsMoreByThisFactor * height;
-    CGFloat bgBarHeight = 2.f * bgBarHeightFactor;
-    
-    CGFloat bgBarX = adjustedRect.origin.x;
-    CGFloat bgBarY = adjustedRect.origin.y - bgBarHeightFactor;
-    CGFloat bgBarWidth = adjustedRect.size.width;
-    CGFloat bgComputedBarHeight = adjustedRect.size.height + bgBarHeight;
-    
-    CGRect rectSecondaryBarFrame = CGRectMake(bgBarX, 
-                                              bgBarY, 
-                                              bgBarWidth, 
-                                              bgComputedBarHeight);
-    self.rectSecondaryBarFrame = rectSecondaryBarFrame;
+    [self computeVisibleAreaRect];
   } else {
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
   }
+}
+
+- (void)computeVisibleAreaRect {
+  //adjust the height and width considering the shadow
+  CGFloat marginPercentHorizontal = [self layerHorizontalMarginPercent];
+  CGFloat marginPercentVertical = [self layerVerticalMarginPercent];
+  CGFloat ourWidth = self.bounds.size.width;
+  CGFloat ourHeight = self.bounds.size.height;
+  
+  CGFloat widthMargin = ourWidth * marginPercentHorizontal;
+  CGFloat heightMargin = ourHeight * marginPercentVertical;
+  self.heightMargin = heightMargin;
+  
+  CGFloat shadowHeight = ourHeight - heightMargin;
+  self.howBigIsItsShadow = shadowHeight * kHowBigIsItsShadow;
+  
+  //CGFloat progressHeightAdjustment = ourHeight * self.progress;
+  //CGFloat progressHeight = ourHeight - progressHeightAdjustment;
+  CGFloat progressHeight = 0.f; //ourHeight * (1.f - self.progress);
+  
+  CGFloat x = self.bounds.origin.x + widthMargin;
+  CGFloat y = self.bounds.origin.y + heightMargin; 
+  CGFloat width = ourWidth - ( 2.f * widthMargin );
+  CGFloat height = ourHeight - ( 2.f * heightMargin ) - progressHeight;
+  
+  CGRect adjustedRect = CGRectMake(x, y, width, height);
+  self.rectBarFrame = adjustedRect;
+  
+  
+  //
+  // ---
+  //
+  CGFloat bgBarHeightFactor = kBackgroundBarHeightIsMoreByThisFactor * height;
+  CGFloat bgBarHeight = 2.f * bgBarHeightFactor;
+  
+  CGFloat bgBarX = adjustedRect.origin.x;
+  CGFloat bgBarY = adjustedRect.origin.y - bgBarHeightFactor;
+  CGFloat bgBarWidth = adjustedRect.size.width;
+  CGFloat bgComputedBarHeight = adjustedRect.size.height + bgBarHeight;
+  
+  CGRect rectSecondaryBarFrame = CGRectMake(bgBarX, 
+                                            bgBarY, 
+                                            bgBarWidth, 
+                                            bgComputedBarHeight);
+  self.rectSecondaryBarFrame = rectSecondaryBarFrame;
+  
 }
 
 #pragma mark - constraints

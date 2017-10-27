@@ -11,8 +11,9 @@
 @interface BOBar : UIView
 @property (nonatomic, copy, readonly) NSString* title;
 @property (nonatomic, copy, readonly) NSString* subTitle;
+@property (nonatomic, readonly) CGFloat progress;
 
 - (instancetype)initWithTitle:(NSString*)title subTitle:(NSString*)subTitle;
-- (void)createBar;
+- (void)createBarWithProgress:(CGFloat)progress;
 
 @end
