@@ -28,6 +28,7 @@
 
 - (void)commonInit {
   self.hasAppliedConstraints = NO;
+  self.translatesAutoresizingMaskIntoConstraints = NO;
 #if defined DEBUG_UI_VIEW
   self.backgroundColor = [UIColor magentaColor];
 #endif

@@ -22,6 +22,7 @@
 @property (nonatomic) BOBar* boBarTwo;
 @property (nonatomic) BOBarModel* model1;
 @property (nonatomic) BOBarModel* model2;
+@property (nonatomic) BOBarChart* barChartView;
 @end
 
 @implementation ViewController
@@ -40,6 +41,7 @@
   [super viewDidLayoutSubviews];
   
 #if USE_BO_CHART_BAR_VIEW
+  [self addBarCHART];
 #else
   [self addTWOBOBar];
 #endif
@@ -48,9 +50,36 @@
 - (void)viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
 #if USE_BO_CHART_BAR_VIEW
+  [self.barChartView showBars];
 #else
   [self showBOBars];
 #endif
+}
+
+#pragma mark - bar chart test
+- (void)addBarCHART {
+  BOBarModel* model1 = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"82%" progress:.42f boBarColor:[BOColor skyBlueColor]];
+  BOBarModel* model2 = [[BOBarModel alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"10%" progress:0.89f boBarColor:[BOColor pinkColor]];
+  
+  BOBarChartModel* barChartModel = [[BOBarChartModel alloc] initWithBarModels:@[model1, model2]];
+  BOBarChart* barChartView = [[BOBarChart alloc] initWithWithChartModel:barChartModel];
+  self.barChartView = barChartView;
+  
+  [self.view addSubview:barChartView];
+  
+  static const CGFloat kVerticalMargin = 100.f;
+  UIView* parent = self.view;
+  
+  
+  //constraints
+  {
+    NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:barChartView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f];
+    NSLayoutConstraint* bottom = [NSLayoutConstraint constraintWithItem:barChartView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeBottom multiplier:1.f constant:-0.f];
+    NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:barChartView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f];
+    NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:barChartView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTrailing multiplier:1.f constant:-0.];
+    
+    [parent addConstraints:@[top, bottom, left, ]];
+  }
 }
 
 - (void)showBOBars {
