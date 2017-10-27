@@ -8,13 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BOBar : UIView
-@property (nonatomic, copy, readonly) NSString* title;
-@property (nonatomic, copy, readonly) NSString* subTitle;
-@property (nonatomic, readonly) CGFloat progress;
-@property (nonatomic, readonly) UIColor* boBarColor;
+@class BOBarModel;
 
-- (instancetype)initWithTitle:(NSString*)title subTitle:(NSString*)subTitle;
+@interface BOBar : UIView
+
+- (instancetype)initWithBarModel:(BOBarModel*)barModel;
 - (void)createBarWithProgress:(CGFloat)progress color:(UIColor*)color;
 
 @end

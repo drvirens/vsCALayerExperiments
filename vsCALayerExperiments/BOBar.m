@@ -8,6 +8,7 @@
 
 #import "BOBar.h"
 #import "BOColor.h"
+#import "BOBarModel.h"
 
 
 //shape layer
@@ -37,10 +38,10 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
 @implementation BOBar
 
 #pragma mark - public api
-- (instancetype)initWithTitle:(NSString*)title subTitle:(NSString*)subTitle {
+- (instancetype)initWithBarModel:(BOBarModel*)barModel {
   if (self = [super init]) {
-    _title = title;
-    _subTitle = subTitle;
+    _title = barModel.title;
+    _subTitle = barModel.subTitle;
     [self commonInit];
   }
   return self;

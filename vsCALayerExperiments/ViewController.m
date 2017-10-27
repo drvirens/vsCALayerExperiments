@@ -9,12 +9,15 @@
 #import "ViewController.h"
 #import "BOBar.h"
 #import "BOColor.h"
+#import "BOBarModel.h"
 
 @interface ViewController ()
 @property (nonatomic) CGRect rectBarFrame;
 @property (nonatomic) CGRect rectSecondaryBarFrame;
 @property (nonatomic) BOBar* boBarOne;
 @property (nonatomic) BOBar* boBarTwo;
+@property (nonatomic) BOBarModel* model1;
+@property (nonatomic) BOBarModel* model2;
 @end
 
 @implementation ViewController
@@ -48,18 +51,21 @@
 }
 
 - (void)showBOBars {
-  [self.boBarOne createBarWithProgress:.82f color:[BOColor skyBlueColor]];
-  [self.boBarTwo createBarWithProgress:.1f color:[BOColor pinkColor]];
+  [self.boBarOne createBarWithProgress:self.model1.progress color:self.model1.boBarColor];
+  [self.boBarTwo createBarWithProgress:self.model2.progress color:self.model2.boBarColor];
 }
 
 
 - (BOBar* )addTWOBOBar {
-  BOBar* boBarOne = [[BOBar alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"82%"];
+  self.model1 = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"82%" progress:.82f boBarColor:[BOColor skyBlueColor]];
+  BOBar* boBarOne = [[BOBar alloc] initWithBarModel:self.model1];
   //boBarOne.backgroundColor = [UIColor blueColor];
   self.boBarOne = boBarOne;
   [self.view addSubview:boBarOne];
   
-  BOBar* boBarTwo = [[BOBar alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"10%"];
+  
+  self.model2 = [[BOBarModel alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"10%" progress:0.1f boBarColor:[BOColor pinkColor]];
+  BOBar* boBarTwo = [[BOBar alloc] initWithBarModel:self.model2];
   //boBarTwo.backgroundColor = [UIColor redColor];
   self.boBarTwo = boBarTwo;
   [self.view addSubview:boBarTwo];
