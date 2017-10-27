@@ -33,6 +33,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
 @property (nonatomic, copy, readwrite) NSString* subTitle;
 @property (nonatomic, readwrite) CGFloat progress;
 @property (nonatomic, readwrite) UIColor* boBarColor;
+@property (nonatomic, readwrite) BOOL showFullHeightForSecondaryBar;
 @end
 
 @implementation BOBar
@@ -44,16 +45,13 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
     _subTitle = barModel.subTitle;
     _progress = barModel.progress;
     _boBarColor = barModel.boBarColor;
+    _showFullHeightForSecondaryBar = barModel.showFullHeightForSecondaryBar;
     [self commonInit];
   }
   return self;
 }
 
-- (void)showBar {
-//- (void)createBarWithProgress:(CGFloat)progress color:(UIColor*)color {
-//  self.progress = progress;
-//  self.boBarColor = color;
-  
+- (void)showBar {  
   {//main bar
     CAShapeLayer* bar = [self createMainBar];
     [self addShadowToShapeLayer:bar];
@@ -222,14 +220,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
 - (UIBezierPath*)shadowFrom {
   CGFloat cornerRadius = self.rectBarFrame.size.width / 2.f;
   UIRectCorner rectCorner = UIRectCornerAllCorners;
-  
-//  CGFloat screenHeight = self.rectBarFrame.size.height; 
-//  CGFloat y = screenHeight + self.rectBarFrame.origin.y + (self.howBigIsItsShadow / 2.f);
-//  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, 
-//                           y, 
-//                           self.rectBarFrame.size.width, 
-//                           0.f
-//                           );
+
   CGRect r = [self fromRect];
   CGFloat y = r.origin.y + (self.howBigIsItsShadow / 2.f);
   CGRect rect = CGRectMake(r.origin.x, y, r.size.width, r.size.height);
@@ -244,13 +235,6 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   UIRectCorner rectCorner = UIRectCornerAllCorners;
   CGFloat y = 0; 
   
-//  y = self.rectBarFrame.origin.y - (self.howBigIsItsShadow / 2.f); 
-//  CGFloat screenHeight = self.rectBarFrame.size.height + self.howBigIsItsShadow;
-//  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, 
-//                           y, 
-//                           self.rectBarFrame.size.width, 
-//                           screenHeight 
-//                           );
   CGRect r = [self toRect];
   y = r.origin.y - (self.howBigIsItsShadow / 2.f); 
   CGFloat h = r.size.height + self.howBigIsItsShadow;
@@ -277,6 +261,25 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
 }
 
 
+//- (CAShapeLayer*)createSecondaryBar {
+//  CAShapeLayer* bar = [CAShapeLayer layer];
+//  [self initShapeLayer:bar 
+//                 block:^(CAShapeLayer* shapeLayer){
+//                   
+//                   UIColor* faintCOlor = [self.boBarColor colorWithAlphaComponent:0.1f];
+//                   shapeLayer.fillColor = faintCOlor.CGColor; //[BOColor skyBlueColorVeryFaint].CGColor;
+//                   
+//                   CGFloat width = self.bounds.size.width;
+//                   
+//                   CGRect rect = self.rectSecondaryBarFrame;
+//                   NSLog(@"FRAME for BOBar is [%@]", NSStringFromCGRect(self.frame));
+//                   NSLog(@"So rectSecondaryBarFrame here is [%@]", NSStringFromCGRect(self.rectSecondaryBarFrame));
+//                   
+//                   UIBezierPath* path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:width/2.f];
+//                   shapeLayer.path = path.CGPath;
+//                 }];
+//  return bar;
+//}
 - (CAShapeLayer*)createSecondaryBar {
   CAShapeLayer* bar = [CAShapeLayer layer];
   [self initShapeLayer:bar 
@@ -291,11 +294,19 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
                    NSLog(@"FRAME for BOBar is [%@]", NSStringFromCGRect(self.frame));
                    NSLog(@"So rectSecondaryBarFrame here is [%@]", NSStringFromCGRect(self.rectSecondaryBarFrame));
                    
-                   UIBezierPath* path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:width/2.f];
+                   
+                   UIBezierPath* path = nil;
+                   if (self.showFullHeightForSecondaryBar) {
+                     path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:width/2.f];
+                   } else {
+                     
+                   }
                    shapeLayer.path = path.CGPath;
                  }];
   return bar;
 }
+
+
 
 #pragma mark - kvo
 - (void)dealloc {
@@ -312,53 +323,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
 - (CGFloat)layerVerticalMarginPercent {
   return .2f;
 }
-//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-//  NSLog(@"observeValueForKeyPath for BOBar called");
-//  if ([keyPath isEqualToString:@"bounds"]) {
-//    //self.layer.frame = self.bounds;
-//    
-//    //adjust the height and width considering the shadow
-//    CGFloat marginPercentHorizontal = [self layerHorizontalMarginPercent];
-//    CGFloat marginPercentVertical = [self layerVerticalMarginPercent];
-//    CGFloat ourWidth = self.bounds.size.width;
-//    CGFloat ourHeight = self.bounds.size.height;
-//    
-//    CGFloat widthMargin = ourWidth * marginPercentHorizontal;
-//    CGFloat heightMargin = ourHeight * marginPercentVertical;
-//    self.heightMargin = heightMargin;
-//    
-//    CGFloat shadowHeight = ourHeight - heightMargin;
-//    self.howBigIsItsShadow = shadowHeight * kHowBigIsItsShadow;
-//    
-//    CGFloat x = self.bounds.origin.x + widthMargin;
-//    CGFloat y = self.bounds.origin.y + heightMargin; 
-//    CGFloat width = ourWidth - ( 2.f * widthMargin );
-//    CGFloat height = ourHeight - ( 2.f * heightMargin );
-//    
-//    CGRect adjustedRect = CGRectMake(x, y, width, height);
-//    self.rectBarFrame = adjustedRect;
-//    
-//    
-//    //
-//    // ---
-//    //
-//    CGFloat bgBarHeightFactor = kBackgroundBarHeightIsMoreByThisFactor * height;
-//    CGFloat bgBarHeight = 2.f * bgBarHeightFactor;
-//    
-//    CGFloat bgBarX = adjustedRect.origin.x;
-//    CGFloat bgBarY = adjustedRect.origin.y - bgBarHeightFactor;
-//    CGFloat bgBarWidth = adjustedRect.size.width;
-//    CGFloat bgComputedBarHeight = adjustedRect.size.height + bgBarHeight;
-//    
-//    CGRect rectSecondaryBarFrame = CGRectMake(bgBarX, 
-//                                              bgBarY, 
-//                                              bgBarWidth, 
-//                                              bgComputedBarHeight);
-//    self.rectSecondaryBarFrame = rectSecondaryBarFrame;
-//  } else {
-//    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-//  }
-//}
+
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
   NSLog(@"observeValueForKeyPath for BOBar called");
@@ -385,9 +350,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   CGFloat shadowHeight = ourHeight - heightMargin;
   self.howBigIsItsShadow = shadowHeight * kHowBigIsItsShadow;
   
-  //CGFloat progressHeightAdjustment = ourHeight * self.progress;
-  //CGFloat progressHeight = ourHeight - progressHeightAdjustment;
-  CGFloat progressHeight = 0.f; //ourHeight * (1.f - self.progress);
+  CGFloat progressHeight = 0.f; 
   
   CGFloat x = self.bounds.origin.x + widthMargin;
   CGFloat y = self.bounds.origin.y + heightMargin; 

@@ -14,14 +14,15 @@
 @property (nonatomic, copy, readwrite) NSString* subTitle;
 @property (nonatomic, readwrite) CGFloat progress;
 @property (nonatomic, readwrite) UIColor* boBarColor;
-
+@property (nonatomic, readwrite) BOOL showFullHeightForSecondaryBar;
 @end
 
 @implementation BOBarModel
 - (instancetype)initWithTitle:(NSString*)title
                      subTitle:(NSString*)subTitle
                      progress:(CGFloat)progress
-                   boBarColor:(UIColor*)boBarColor {
+                   boBarColor:(UIColor*)boBarColor
+showFullHeightForSecondaryBar:(BOOL)showFullHeightForSecondaryBar {
   if (self = [super init]) {
     _title = title;
     _subTitle = subTitle;

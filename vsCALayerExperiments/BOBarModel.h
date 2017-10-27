@@ -15,10 +15,12 @@
 @property (nonatomic, copy, readonly) NSString* subTitle;
 @property (nonatomic, readonly) CGFloat progress;
 @property (nonatomic, readonly) UIColor* boBarColor;
+@property (nonatomic, readonly) BOOL showFullHeightForSecondaryBar;
 
 - (instancetype)initWithTitle:(NSString*)title
                      subTitle:(NSString*)subTitle
                      progress:(CGFloat)progress
-                   boBarColor:(UIColor*)boBarColor;
+                   boBarColor:(UIColor*)boBarColor
+showFullHeightForSecondaryBar:(BOOL)showFullHeightForSecondaryBar;
 
 @end

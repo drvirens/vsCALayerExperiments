@@ -58,10 +58,11 @@
 
 #pragma mark - bar chart test
 - (void)addBarCHART {
-  BOBarModel* model1 = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"92%"     progress:.92f boBarColor:[BOColor skyBlueColor]];
-  BOBarModel* model2 = [[BOBarModel alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"10%" progress:.10f boBarColor:[BOColor pinkColor]];
-  BOBarModel* model3 = [[BOBarModel alloc] initWithTitle:@"YOLANDA" subTitle:@"4%"          progress:.04f boBarColor:[BOColor brightGreen]];
-  BOBarModel* model4 = [[BOBarModel alloc] initWithTitle:@"BRENT CORRIGAN" subTitle:@"43%"  progress:.43f boBarColor:[BOColor brightYellow]];
+  BOOL showFullHeightForSecondaryBar = YES;
+  BOBarModel* model1 = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"92%"     progress:.92f boBarColor:[BOColor skyBlueColor] showFullHeightForSecondaryBar:showFullHeightForSecondaryBar];
+  BOBarModel* model2 = [[BOBarModel alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"10%" progress:.10f boBarColor:[BOColor pinkColor]showFullHeightForSecondaryBar:showFullHeightForSecondaryBar];
+  BOBarModel* model3 = [[BOBarModel alloc] initWithTitle:@"YOLANDA" subTitle:@"4%"          progress:.04f boBarColor:[BOColor brightGreen]showFullHeightForSecondaryBar:showFullHeightForSecondaryBar];
+  BOBarModel* model4 = [[BOBarModel alloc] initWithTitle:@"BRENT CORRIGAN" subTitle:@"43%"  progress:.43f boBarColor:[BOColor brightYellow]showFullHeightForSecondaryBar:showFullHeightForSecondaryBar];
   
   
   BOBarChartModel* barChartModel = [[BOBarChartModel alloc] initWithBarModels:@[model1, model2, model3, model4]];
@@ -92,14 +93,15 @@
 
 
 - (BOBar* )addTWOBOBar {
-  self.model1 = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"82%" progress:.42f boBarColor:[BOColor skyBlueColor]];
+  BOOL showFullHeightForSecondaryBar = YES;
+  self.model1 = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"82%" progress:.42f boBarColor:[BOColor skyBlueColor] showFullHeightForSecondaryBar:showFullHeightForSecondaryBar];
   BOBar* boBarOne = [[BOBar alloc] initWithBarModel:self.model1];
   //boBarOne.backgroundColor = [UIColor blueColor];
   self.boBarOne = boBarOne;
   [self.view addSubview:boBarOne];
   
   
-  self.model2 = [[BOBarModel alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"10%" progress:0.89f boBarColor:[BOColor pinkColor]];
+  self.model2 = [[BOBarModel alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"10%" progress:0.89f boBarColor:[BOColor pinkColor] showFullHeightForSecondaryBar:showFullHeightForSecondaryBar];
   BOBar* boBarTwo = [[BOBar alloc] initWithBarModel:self.model2];
   //boBarTwo.backgroundColor = [UIColor redColor];
   self.boBarTwo = boBarTwo;
