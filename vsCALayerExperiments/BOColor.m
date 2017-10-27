@@ -13,6 +13,9 @@
 + (UIColor*)skyBlueColor {
   return [UIColor colorWithRed:41.f/255.f green:198.f/255.f blue:250.f/255.f alpha:1.f];
 }
++ (UIColor*)pinkColor {
+  return [UIColor magentaColor];
+}
 + (UIColor*)skyBlueColorVeryFaint {
   return [UIColor colorWithRed:41.f/255.f green:198.f/255.f blue:250.f/255.f alpha:.1f];
 }

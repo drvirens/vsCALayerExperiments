@@ -31,6 +31,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
 @property (nonatomic, copy, readwrite) NSString* title;
 @property (nonatomic, copy, readwrite) NSString* subTitle;
 @property (nonatomic, readwrite) CGFloat progress;
+@property (nonatomic, readwrite) UIColor* boBarColor;
 @end
 
 @implementation BOBar
@@ -45,12 +46,10 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   return self;
 }
 
-- (void)createBarWithProgress:(CGFloat)progress {
+- (void)createBarWithProgress:(CGFloat)progress color:(UIColor*)color {
   self.progress = progress;
+  self.boBarColor = color;
   
-//  if (self.progress > 0.f) {
-//    [self computeVisibleAreaRect];
-//  }
   {//main bar
     CAShapeLayer* bar = [self createMainBar];
     [self addShadowToShapeLayer:bar];
@@ -158,7 +157,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
 }
 
 - (void)addShadowToShapeLayer:(CAShapeLayer*)shapeLayer {
-  shapeLayer.shadowColor = [BOColor skyBlueColor].CGColor;
+  shapeLayer.shadowColor = self.boBarColor.CGColor; //[BOColor skyBlueColor].CGColor;
   
   //using shadowOffset and shadowPath will most likely screw up your shit so be careful
   //shapeLayer.shadowOffset = CGSizeMake(0, -kHowBigIsItsShadow); //animatable
@@ -178,7 +177,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   CAShapeLayer* bar = [CAShapeLayer layer];
   [self initShapeLayer:bar 
                  block:^(CAShapeLayer* shapeLayer){
-                   shapeLayer.fillColor = [BOColor skyBlueColor].CGColor;
+                   shapeLayer.fillColor = self.boBarColor.CGColor; //[BOColor skyBlueColor].CGColor;
                    UIBezierPath* path = [self to];
                    shapeLayer.path = path.CGPath;
                  }];
@@ -279,7 +278,8 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   [self initShapeLayer:bar 
                  block:^(CAShapeLayer* shapeLayer){
                    
-                   shapeLayer.fillColor = [BOColor skyBlueColorVeryFaint].CGColor;
+                   UIColor* faintCOlor = [self.boBarColor colorWithAlphaComponent:0.1f];
+                   shapeLayer.fillColor = faintCOlor.CGColor; //[BOColor skyBlueColorVeryFaint].CGColor;
                    
                    CGFloat width = self.bounds.size.width;
                    

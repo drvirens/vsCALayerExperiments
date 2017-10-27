@@ -12,8 +12,9 @@
 @property (nonatomic, copy, readonly) NSString* title;
 @property (nonatomic, copy, readonly) NSString* subTitle;
 @property (nonatomic, readonly) CGFloat progress;
+@property (nonatomic, readonly) UIColor* boBarColor;
 
 - (instancetype)initWithTitle:(NSString*)title subTitle:(NSString*)subTitle;
-- (void)createBarWithProgress:(CGFloat)progress;
+- (void)createBarWithProgress:(CGFloat)progress color:(UIColor*)color;
 
 @end

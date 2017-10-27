@@ -11,6 +11,7 @@
 
 @interface BOColor : NSObject
 + (UIColor*)skyBlueColor;
++ (UIColor*)pinkColor;
 + (UIColor*)skyBlueColorVeryFaint;
 + (UIColor*)barSubTitleColor;
 + (UIColor*)barTitleColor;

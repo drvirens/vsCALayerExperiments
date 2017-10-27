@@ -48,18 +48,18 @@
 }
 
 - (void)showBOBars {
-  [self.boBarOne createBarWithProgress:.5f];
-  [self.boBarTwo createBarWithProgress:.1f];
+  [self.boBarOne createBarWithProgress:.82f color:[BOColor skyBlueColor]];
+  [self.boBarTwo createBarWithProgress:.1f color:[BOColor pinkColor]];
 }
 
 
 - (BOBar* )addTWOBOBar {
-  BOBar* boBarOne = [[BOBar alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"69 %"];
+  BOBar* boBarOne = [[BOBar alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"82%"];
   //boBarOne.backgroundColor = [UIColor blueColor];
   self.boBarOne = boBarOne;
   [self.view addSubview:boBarOne];
   
-  BOBar* boBarTwo = [[BOBar alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"29 %"];
+  BOBar* boBarTwo = [[BOBar alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"10%"];
   //boBarTwo.backgroundColor = [UIColor redColor];
   self.boBarTwo = boBarTwo;
   [self.view addSubview:boBarTwo];
