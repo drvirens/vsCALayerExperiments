@@ -20,6 +20,8 @@ static const CGFloat kHowLongWouldItTake  = 0.5f; //animation duration
 
 //text layer
 static const CGFloat kTitleFOntSize = 20.f;
+static const CGFloat kTitleFOntSmallSize = 14.f;
+static const CGFloat kMarginBottomSubTitle = 20.f;
 
 @interface BOBar ()
 @property (nonatomic) CGRect rectBarFrame;
@@ -56,12 +58,15 @@ static const CGFloat kTitleFOntSize = 20.f;
   }
   {
     //add subtitle
-    CATextLayer* subtitle = [self createText:self.subTitle];
+    CATextLayer* subtitle = [self createSubText:self.subTitle];
     [self positionSubtitle:subtitle];
     [self.layer addSublayer:subtitle];
   }
   {
     //add title
+    CATextLayer* title = [self createText:self.title];
+    [self positionTitle:title];
+    [self.layer addSublayer:title];
   }
 }
 
@@ -78,20 +83,52 @@ static const CGFloat kTitleFOntSize = 20.f;
   CATextLayer* text = [CATextLayer layer];
   //XXX: Use attributed string
   text.string = title;
-  text.foregroundColor = [UIColor whiteColor].CGColor;
+  text.foregroundColor = [BOColor barSubTitleColor].CGColor;
+  text.fontSize = kTitleFOntSmallSize;
+  text.contentsScale = [UIScreen mainScreen].scale;
+  text.alignmentMode = kCAAlignmentCenter;
+  text.wrapped = YES;
+  return text;
+}
+- (CATextLayer*)createSubText:(NSString*)title {
+  CATextLayer* text = [CATextLayer layer];
+  //XXX: Use attributed string
+  text.string = title;
+  text.foregroundColor = [BOColor barTitleColor].CGColor;
   text.fontSize = kTitleFOntSize;
   text.contentsScale = [UIScreen mainScreen].scale;
   text.alignmentMode = kCAAlignmentCenter;
+  text.wrapped = YES;
   return text;
 }
 
 - (void)positionSubtitle:(CATextLayer*)text {
-  CGFloat x = 0.f;
-  CGFloat y = 20.f;
-  CGFloat width = self.rectBarFrame.size.width;
-  CGFloat height = 80.f;
-  CGRect subtitleRect = CGRectMake(x, y, width, height);
-  text.frame = subtitleRect;
+  {
+    CGFloat width = self.bounds.size.width;
+    CGFloat height = 2.f * kMarginBottomSubTitle;
+    CGRect subtitleRect = CGRectMake(0., 0., width, height);
+    
+    text.frame = subtitleRect;
+  }
+  
+  {
+    CGFloat y = self.bounds.size.height - kMarginBottomSubTitle;
+    text.position = CGPointMake(self.bounds.size.width/2.f, y);
+  }
+}
+- (void)positionTitle:(CATextLayer*)text {
+  {
+    CGFloat width = self.bounds.size.width;
+    CGFloat height = 2.f * kMarginBottomSubTitle;
+    CGRect subtitleRect = CGRectMake(0., 0., width, height);
+  
+    text.frame = subtitleRect;
+  }
+  
+  {
+    CGFloat y = self.bounds.size.height + kMarginBottomSubTitle; // - (3.f * kMarginBottomSubTitle);
+    text.position = CGPointMake(self.bounds.size.width/2.f, y);
+  }
 }
 #pragma mark - helpers
 - (void)initShapeLayer:(CAShapeLayer*)layer block:(void(^)(CAShapeLayer*))block {
