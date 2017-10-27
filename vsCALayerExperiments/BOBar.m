@@ -48,7 +48,6 @@ static const CGFloat kHowLongWouldItTake  = 15.5f; //animation duration
 #pragma mark - shadow
 - (void)animateShadowPath:(CAShapeLayer*)shapeLayer from:(CGPathRef)from to:(CGPathRef)to {
   [CATransaction begin];
-  //shadow shoud grow by 50% - NOT working yolo
   NSString* keyPath = NSStringFromSelector(@selector(shadowPath));
   
   CABasicAnimation* shadowPath = [CABasicAnimation animationWithKeyPath:keyPath];
@@ -61,7 +60,6 @@ static const CGFloat kHowLongWouldItTake  = 15.5f; //animation duration
   
   [CATransaction commit];
 }
-
 
 - (UIBezierPath*)shadowFrom {
   UIRectCorner rectCorner = UIRectCornerAllCorners;
@@ -76,13 +74,14 @@ static const CGFloat kHowLongWouldItTake  = 15.5f; //animation duration
   UIBezierPath* shadowPath = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:rectCorner cornerRadii:CGSizeMake(10.f, 10.f)];
   return shadowPath;
 }
-
 - (UIBezierPath*)shadowTo {
   UIRectCorner rectCorner = UIRectCornerAllCorners;
   CGRect rect = CGRectMake(self.rectBarFrame.origin.x, self.rectBarFrame.origin.y - self.howBigIsItsShadow, self.rectBarFrame.size.width, self.rectBarFrame.size.height + (2.f * self.howBigIsItsShadow) );
   UIBezierPath* shadowPath = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:rectCorner cornerRadii:CGSizeMake(10.f, 10.f)];
   return shadowPath;
 }
+
+
 
 - (void)addShadowToShapeLayer:(CAShapeLayer*)shapeLayer {
   shapeLayer.shadowColor = [BOColor skyBlueColor].CGColor;
@@ -105,10 +104,7 @@ static const CGFloat kHowLongWouldItTake  = 15.5f; //animation duration
   CAShapeLayer* bar = [CAShapeLayer layer];
   [self initShapeLayer:bar 
                  block:^(CAShapeLayer* shapeLayer){
-                   
-                   
                    shapeLayer.fillColor = [BOColor skyBlueColor].CGColor;
-                   
                    CGFloat width = self.bounds.size.width;
                    
                    CGRect rect = self.rectBarFrame;
@@ -121,21 +117,44 @@ static const CGFloat kHowLongWouldItTake  = 15.5f; //animation duration
 }
 
 
+//- (UIBezierPath*)from {
+//  CGFloat cornerRadius = self.rectBarFrame.size.width / 2.f;
+//  CGFloat screenHeight = self.rectBarFrame.size.height; 
+//  CGFloat y = screenHeight - self.rectBarFrame.size.height;
+//  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, y, self.rectBarFrame.size.width, 0);
+//  UIBezierPath* nofill = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:cornerRadius];
+//  return nofill;
+//}
+//- (UIBezierPath*)to {
+//  CGFloat cornerRadius = self.rectBarFrame.size.width / 2.f;
+//  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, self.rectBarFrame.origin.y, self.rectBarFrame.size.width, self.rectBarFrame.size.height);
+//  UIBezierPath* f = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:cornerRadius];
+//  return f;
+//}
+
 - (UIBezierPath*)from {
   CGFloat cornerRadius = self.rectBarFrame.size.width / 2.f;
-  CGFloat screenHeight = self.rectBarFrame.size.height; //[UIScreen mainScreen].bounds.size.height;
-  CGFloat y = screenHeight - self.rectBarFrame.size.height;
-  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, y, self.rectBarFrame.size.width, 0);
+  CGFloat screenHeight = self.rectBarFrame.size.height; 
+  CGFloat y = screenHeight + self.rectBarFrame.origin.y;
+  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, 
+                           y, 
+                           self.rectBarFrame.size.width, 
+                           0.f);
   UIBezierPath* nofill = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:cornerRadius];
   return nofill;
 }
-
 - (UIBezierPath*)to {
   CGFloat cornerRadius = self.rectBarFrame.size.width / 2.f;
-  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, self.rectBarFrame.origin.y, self.rectBarFrame.size.width, self.rectBarFrame.size.height);
+  CGFloat y = self.rectBarFrame.origin.y; // + self.rectBarFrame.size.height; 
+  CGRect rect = CGRectMake(self.rectBarFrame.origin.x, 
+                           y, //self.rectBarFrame.origin.y, 
+                           self.rectBarFrame.size.width, 
+                           self.rectBarFrame.size.height);
   UIBezierPath* f = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:cornerRadius];
   return f;
 }
+
+
 
 - (void)addFillAnimation:(CAShapeLayer*)shapeLayer {
   [CATransaction begin];
@@ -197,11 +216,9 @@ static const CGFloat kHowLongWouldItTake  = 15.5f; //animation duration
   }
 }
 - (CGFloat)layerHorizontalMarginPercent {
-//  return 0.2f;
   return 0.2f;
 }
 - (CGFloat)layerVerticalMarginPercent {
-//  return 0.5f;
   return .2f;
 }
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
