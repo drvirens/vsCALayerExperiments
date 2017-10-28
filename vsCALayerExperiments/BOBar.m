@@ -15,7 +15,7 @@
 static const CGFloat kBackgroundBarHeightIsMoreByThisFactor = .1f; //20% more than real bar height. example, if real bar height is 100, bgBar will be 120
 static const CGFloat kHowBigIsItsShadow   = 0.33f; //the bigger the value, the longer the shadow on top
 static const CGFloat kHowBlurIsIt         = 10.f; //the biiger the value, the blurreir it is
-static const CGFloat kHowMuchVisibleIsIt  = .14f; //the bigger the value, the darker the shadow
+static const CGFloat kHowMuchVisibleIsIt  = .06f; //the bigger the value, the darker the shadow
 static const CGFloat kHowLongWouldItTake  = .5f; //animation duration
 
 
