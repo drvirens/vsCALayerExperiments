@@ -433,8 +433,6 @@ static const CGFloat kBarThickness = 60.f;
   CGFloat x2 = x;
   CGFloat y2 = y + oneFourthHeight;
   
-  CGRect rect = CGRectMake(x, y, w, w);
-  
   CGPoint pointA = CGPointMake(x2, y2);
   CGPoint pointB = CGPointMake(x1, y1);
   

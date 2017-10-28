@@ -9,6 +9,7 @@
 #import "BOBarChart.h"
 #import "BOBar.h"
 #import "BOBarChartModel.h"
+#import "BOColor.h"
 
 @interface BOBarChart ()
 @property (nonatomic, copy, readwrite) BOBarChartModel* chartModel;
@@ -32,7 +33,7 @@
 #if defined DEBUG_UI_VIEW
   self.backgroundColor = [UIColor greenColor];
 #endif
-  
+    
   self.barsArray = [@[] mutableCopy];
   
   //create bars based on models
@@ -49,7 +50,6 @@
     [bar showBar];
   }];
 }
-
 
 #pragma mark - constraints
 + (BOOL)requiresConstraintBasedLayout {
@@ -75,10 +75,9 @@
 
 - (void)applyConstraints {
   UIView* parent = self;
-  
+    
   CGFloat kMargin = 0.f;
-  //CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-  CGFloat theWidth = [self singleBarWidth]; //screenWidth/3; 
+  CGFloat theWidth = [self singleBarWidth];
 
   [self.barsArray enumerateObjectsUsingBlock:^(BOBar * _Nonnull bar, NSUInteger idx, BOOL * _Nonnull stop) {
     //

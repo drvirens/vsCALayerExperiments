@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1106D9F51FA466CC004D4BFD /* BOFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 1106D9F41FA466CC004D4BFD /* BOFont.m */; };
+		1106D9F81FA469C8004D4BFD /* BOPollResultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1106D9F71FA469C8004D4BFD /* BOPollResultView.m */; };
 		117089231FA2A87900279637 /* BOBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 117089221FA2A87900279637 /* BOBar.m */; };
 		117089261FA2AE9C00279637 /* BOColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 117089251FA2AE9C00279637 /* BOColor.m */; };
 		117089291FA3D22400279637 /* BOBarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 117089281FA3D22400279637 /* BOBarChart.m */; };
@@ -21,6 +23,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1106D9F31FA466CC004D4BFD /* BOFont.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BOFont.h; sourceTree = "<group>"; };
+		1106D9F41FA466CC004D4BFD /* BOFont.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BOFont.m; sourceTree = "<group>"; };
+		1106D9F61FA469C8004D4BFD /* BOPollResultView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BOPollResultView.h; sourceTree = "<group>"; };
+		1106D9F71FA469C8004D4BFD /* BOPollResultView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BOPollResultView.m; sourceTree = "<group>"; };
 		117089211FA2A87900279637 /* BOBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BOBar.h; sourceTree = "<group>"; };
 		117089221FA2A87900279637 /* BOBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BOBar.m; sourceTree = "<group>"; };
 		117089241FA2AE9C00279637 /* BOColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BOColor.h; sourceTree = "<group>"; };
@@ -92,6 +98,10 @@
 				1170892B1FA3D28D00279637 /* BOBarChartModel.m */,
 				1170892D1FA3D2C100279637 /* BOBarModel.h */,
 				1170892E1FA3D2C100279637 /* BOBarModel.m */,
+				1106D9F31FA466CC004D4BFD /* BOFont.h */,
+				1106D9F41FA466CC004D4BFD /* BOFont.m */,
+				1106D9F61FA469C8004D4BFD /* BOPollResultView.h */,
+				1106D9F71FA469C8004D4BFD /* BOPollResultView.m */,
 			);
 			path = vsCALayerExperiments;
 			sourceTree = "<group>";
@@ -172,9 +182,11 @@
 				11ECDD541FA1188400E88FDC /* main.m in Sources */,
 				117089261FA2AE9C00279637 /* BOColor.m in Sources */,
 				11ECDD461FA1188400E88FDC /* AppDelegate.m in Sources */,
+				1106D9F51FA466CC004D4BFD /* BOFont.m in Sources */,
 				117089291FA3D22400279637 /* BOBarChart.m in Sources */,
 				1170892F1FA3D2C100279637 /* BOBarModel.m in Sources */,
 				1170892C1FA3D28D00279637 /* BOBarChartModel.m in Sources */,
+				1106D9F81FA469C8004D4BFD /* BOPollResultView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
