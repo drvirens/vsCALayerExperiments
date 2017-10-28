@@ -96,8 +96,8 @@
   
   //constraints
   {
-    NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:barChartView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f];
-    NSLayoutConstraint* bottom = [NSLayoutConstraint constraintWithItem:barChartView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeBottom multiplier:1.f constant:-0.f];
+    NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:barChartView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:100.f];
+    NSLayoutConstraint* bottom = [NSLayoutConstraint constraintWithItem:barChartView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeBottom multiplier:1.f constant:-100.f];
     NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:barChartView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f];
     NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:barChartView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f];
     
