@@ -29,6 +29,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
 @property (nonatomic) CGRect rectSecondaryBarFrame;
 @property (nonatomic) CGFloat howBigIsItsShadow;
 @property (nonatomic) CGFloat heightMargin;
+@property (nonatomic) CGFloat bgBarHeightFactor;
 @property (nonatomic, copy, readwrite) NSString* title;
 @property (nonatomic, copy, readwrite) NSString* subTitle;
 @property (nonatomic, readwrite) CGFloat progress;
@@ -61,6 +62,9 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   {
     //bar with light opacity shadow overlapping main bar
     CAShapeLayer* bar = [self createSecondaryBar];
+    if (NO == self.showFullHeightForSecondaryBar) {
+      [self addFillAnimationToSecondaryBar:bar];
+    }
     [self.layer addSublayer:bar];
   }
   {
@@ -280,6 +284,51 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
 //                 }];
 //  return bar;
 //}
+
+- (UIBezierPath*)backgroundBarFrom {
+  CGFloat cornerRadius = self.rectBarFrame.size.width / 2.f;
+  UIRectCorner rectCorner = UIRectCornerAllCorners;
+  
+  CGRect r = [self fromRect];
+  //CGFloat y = r.origin.y + (self.howBigIsItsShadow / 2.f);
+  CGFloat y = r.origin.y + (self.bgBarHeightFactor/2.f);
+  
+  CGRect rect = CGRectMake(r.origin.x, y, r.size.width, r.size.height);
+  
+  UIBezierPath* shadowPath = [UIBezierPath bezierPathWithRoundedRect:rect 
+                                                   byRoundingCorners:rectCorner 
+                                                         cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
+  return shadowPath;
+}
+- (UIBezierPath*)backgroundBarTo {
+  CGFloat cornerRadius = self.rectBarFrame.size.width / 2.f;
+  UIRectCorner rectCorner = UIRectCornerAllCorners;
+  CGFloat y = 0; 
+  
+  CGRect r = [self toRect];
+  y = r.origin.y - (self.bgBarHeightFactor / 2.f);
+  
+  CGFloat h = r.size.height + (self.bgBarHeightFactor);
+  CGRect rect = CGRectMake(r.origin.x, y, r.size.width, h);
+  
+  UIBezierPath* shadowPath = [UIBezierPath bezierPathWithRoundedRect:rect 
+                                                   byRoundingCorners:rectCorner 
+                                                         cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
+  return shadowPath;
+}
+- (void)addFillAnimationToSecondaryBar:(CAShapeLayer*)shapeLayer {
+  [CATransaction begin];
+  CABasicAnimation* pathFillAnimation = [CABasicAnimation animationWithKeyPath:NSStringFromSelector(@selector(path))];
+  pathFillAnimation.fromValue = (id)([self backgroundBarFrom].CGPath);
+  pathFillAnimation.toValue = (id)([self backgroundBarTo].CGPath);
+  pathFillAnimation.duration = kHowLongWouldItTake;
+  pathFillAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+  //pathFillAnimation.fillMode = kCAFillModeForwards;
+  pathFillAnimation.removedOnCompletion = NO;
+  
+  [shapeLayer addAnimation:pathFillAnimation forKey:@"Path"];
+  [CATransaction commit];
+}
 - (CAShapeLayer*)createSecondaryBar {
   CAShapeLayer* bar = [CAShapeLayer layer];
   [self initShapeLayer:bar 
@@ -296,15 +345,55 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
                    
                    
                    UIBezierPath* path = nil;
-                   if (self.showFullHeightForSecondaryBar) {
+                   if (YES == self.showFullHeightForSecondaryBar) {
                      path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:width/2.f];
                    } else {
-                     
+                     path = [self backgroundBarTo];
                    }
                    shapeLayer.path = path.CGPath;
                  }];
   return bar;
 }
+
+//- (CAShapeLayer*)createSecondaryBar {
+//  CAShapeLayer* bar = [CAShapeLayer layer];
+//  [self initShapeLayer:bar 
+//                 block:^(CAShapeLayer* shapeLayer){
+//                   
+//                   UIColor* faintCOlor = [self.boBarColor colorWithAlphaComponent:0.1f];
+//                   shapeLayer.fillColor = faintCOlor.CGColor; //[BOColor skyBlueColorVeryFaint].CGColor;
+//                   
+//                   CGFloat width = self.bounds.size.width;
+//                   
+//                   CGRect rect = self.rectSecondaryBarFrame;
+//                   NSLog(@"FRAME for BOBar is [%@]", NSStringFromCGRect(self.frame));
+//                   NSLog(@"So rectSecondaryBarFrame here is [%@]", NSStringFromCGRect(self.rectSecondaryBarFrame));
+//                   
+//                   
+//                   UIBezierPath* path = nil;
+//                   if (YES == self.showFullHeightForSecondaryBar) {
+//                     path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:width/2.f];
+//                   } else {
+//                     CGFloat width = self.bounds.size.width;
+//                     
+//                     CGFloat screenHeight = self.rectSecondaryBarFrame.size.height; 
+//                     CGFloat height = self.rectSecondaryBarFrame.size.height * (self.progress);
+//                     CGFloat y = self.rectSecondaryBarFrame.origin.y + (self.rectSecondaryBarFrame.size.height - screenHeight); 
+//                     
+//                     CGFloat progressX = self.rectSecondaryBarFrame.origin.x;
+//                     CGFloat progressY = y;
+//                     CGFloat progressWidth = self.rectSecondaryBarFrame.size.width;
+//                     CGFloat progressHeight = height;
+//                     
+//                     CGRect progressAwareRect = CGRectMake(progressX, progressY, progressWidth, progressHeight);
+//                     self.rectSecondaryBarFrame = progressAwareRect;
+//                     
+//                     path = [UIBezierPath bezierPathWithRoundedRect:progressAwareRect cornerRadius:width/2.f];
+//                   }
+//                   shapeLayer.path = path.CGPath;
+//                 }];
+//  return bar;
+//}
 
 
 
@@ -366,6 +455,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   //
   CGFloat bgBarHeightFactor = kBackgroundBarHeightIsMoreByThisFactor * height;
   CGFloat bgBarHeight = 2.f * bgBarHeightFactor;
+  self.bgBarHeightFactor = bgBarHeightFactor;
   
   CGFloat bgBarX = adjustedRect.origin.x;
   CGFloat bgBarY = adjustedRect.origin.y - bgBarHeightFactor;

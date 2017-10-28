@@ -15,6 +15,8 @@
 
 #define USE_BO_CHART_BAR_VIEW 1
 
+#define SHOW_FULL_LENGHT_SECONDARY_BAR NO
+
 @interface ViewController ()
 @property (nonatomic) CGRect rectBarFrame;
 @property (nonatomic) CGRect rectSecondaryBarFrame;
@@ -58,7 +60,7 @@
 
 #pragma mark - bar chart test
 - (void)addBarCHART {
-  BOOL showFullHeightForSecondaryBar = YES;
+  BOOL showFullHeightForSecondaryBar = SHOW_FULL_LENGHT_SECONDARY_BAR;
   BOBarModel* model1 = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"92%"     progress:.92f boBarColor:[BOColor skyBlueColor] showFullHeightForSecondaryBar:showFullHeightForSecondaryBar];
   BOBarModel* model2 = [[BOBarModel alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"10%" progress:.10f boBarColor:[BOColor pinkColor]showFullHeightForSecondaryBar:showFullHeightForSecondaryBar];
   BOBarModel* model3 = [[BOBarModel alloc] initWithTitle:@"YOLANDA" subTitle:@"4%"          progress:.04f boBarColor:[BOColor brightGreen]showFullHeightForSecondaryBar:showFullHeightForSecondaryBar];
@@ -93,7 +95,7 @@
 
 
 - (BOBar* )addTWOBOBar {
-  BOOL showFullHeightForSecondaryBar = YES;
+  BOOL showFullHeightForSecondaryBar = SHOW_FULL_LENGHT_SECONDARY_BAR;
   self.model1 = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"82%" progress:.42f boBarColor:[BOColor skyBlueColor] showFullHeightForSecondaryBar:showFullHeightForSecondaryBar];
   BOBar* boBarOne = [[BOBar alloc] initWithBarModel:self.model1];
   //boBarOne.backgroundColor = [UIColor blueColor];
