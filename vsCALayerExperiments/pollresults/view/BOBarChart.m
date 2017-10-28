@@ -27,6 +27,10 @@
   return self;
 }
 
+- (void)dealloc {
+  NSLog(@"BOBarChart dealloc");
+}
+
 - (void)commonInit {
   self.hasAppliedConstraints = NO;
   self.translatesAutoresizingMaskIntoConstraints = NO;

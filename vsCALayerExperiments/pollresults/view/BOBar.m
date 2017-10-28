@@ -59,6 +59,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   return self;
 }
 
+
 - (void)showBar {  
   {//main bar
     CAShapeLayer* bar = [self createMainBar];
@@ -364,6 +365,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
 
 #pragma mark - kvo
 - (void)dealloc {
+  NSLog(@"BOBar dealloc");
   @try {
     NSString* keypath = @"bounds";
     [self removeObserver:self forKeyPath:keypath];

@@ -90,10 +90,7 @@
   
   [self.view addSubview:barChartView];
   
-  
   UIView* parent = self.view;
-  
-  
   //constraints
   {
     NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:barChartView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:100.f];

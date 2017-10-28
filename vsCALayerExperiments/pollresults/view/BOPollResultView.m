@@ -31,6 +31,10 @@
   return self;
 }
 
+- (void)dealloc {
+  NSLog(@"BOPollResultView dealloc");
+}
+
 - (void)commonInit {
   self.hasAppliedConstraints = NO;
   self.translatesAutoresizingMaskIntoConstraints = NO;

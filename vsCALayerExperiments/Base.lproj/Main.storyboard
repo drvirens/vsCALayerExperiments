@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,11 +21,51 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YVF-jA-zpB">
+                                <rect key="frame" x="36" y="28" width="303" height="63"/>
+                                <color key="backgroundColor" red="0.10752001627168384" green="0.19053627733275236" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="63" id="emh-ou-4nz"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                <state key="normal" title="Results">
+                                    <color key="titleColor" red="0.95173696167997723" green="1" blue="0.99781565412088602" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="3Xi-5a-Wqq" kind="show" id="8AS-Xm-u9q"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="YVF-jA-zpB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="QBV-3R-c6R"/>
+                            <constraint firstItem="YVF-jA-zpB" firstAttribute="top" secondItem="EQ8-6w-18d" secondAttribute="bottom" constant="8" id="T7C-7v-lGa"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="YVF-jA-zpB" secondAttribute="trailing" constant="20" id="ezx-xV-M32"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
+        </scene>
+        <!--Poll Results View Controller-->
+        <scene sceneID="cwF-OT-TAz">
+            <objects>
+                <viewController id="3Xi-5a-Wqq" customClass="BOPollResultsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nIH-DU-cRO"/>
+                        <viewControllerLayoutGuide type="bottom" id="Zgy-yc-4UH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="vMW-jJ-nqa">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xul-Iu-COe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="847" y="139"/>
         </scene>
     </scenes>
 </document>
