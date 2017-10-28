@@ -43,24 +43,12 @@
   }];
 }
 
+#pragma mark - api
 - (void)showBars {
   [self.barsArray enumerateObjectsUsingBlock:^(BOBar * _Nonnull bar, NSUInteger idx, BOOL * _Nonnull stop) {
     [bar showBar];
   }];
 }
-#pragma mark - content size
-//- (CGSize)intrinsicContentSize {TRACE
-//  CGFloat height = [self.cardLayoutConstraintConstants getHeightActionBarView];
-//  return CGSizeMake(UIViewNoIntrinsicMetric, height); 
-//}
-
-#pragma mark - api
-
-
-#pragma mark - helpers
-
-
-#pragma mark - UI Elements
 
 
 #pragma mark - constraints
@@ -124,8 +112,8 @@
     
     
     CGFloat leadingSpace = (theWidth * idx) + ((idx ) * kMargin);
-    CGFloat multiplier = 1.f; //TODO
-    CGFloat constant = leadingSpace; //TODO
+    CGFloat multiplier = 1.f; 
+    CGFloat constant = leadingSpace; 
     NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:bar
                                                             attribute:NSLayoutAttributeLeading
                                                             relatedBy:NSLayoutRelationEqual
@@ -137,41 +125,6 @@
     [parent addConstraints:@[bottom, top, left]];
   }];
   
-  /*
-  NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:self.quizContainerView
-                                                            attribute:NSLayoutAttributeBottom
-                                                            relatedBy:NSLayoutRelationEqual
-                                                               toItem:parent
-                                                            attribute:NSLayoutAttributeBottom
-                                                           multiplier:1.f
-                                                             constant:-0.f];
-  
-  NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:self.quizContainerView
-                                                         attribute:NSLayoutAttributeTop
-                                                         relatedBy:NSLayoutRelationEqual
-                                                            toItem:parent
-                                                         attribute:NSLayoutAttributeTop
-                                                        multiplier:1.f
-                                                          constant:0.f];
-  
-  NSLayoutConstraint *left = [NSLayoutConstraint constraintWithItem:self.quizContainerView
-                                                          attribute:NSLayoutAttributeLeading
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:parent
-                                                          attribute:NSLayoutAttributeLeading
-                                                         multiplier:1.f
-                                                           constant:0.f];
-  
-  NSLayoutConstraint *right = [NSLayoutConstraint constraintWithItem:self.quizContainerView
-                                                           attribute:NSLayoutAttributeTrailing
-                                                           relatedBy:NSLayoutRelationEqual
-                                                              toItem:parent
-                                                           attribute:NSLayoutAttributeTrailing
-                                                          multiplier:1.f
-                                                            constant:-0.f];
-  
-  [parent addConstraints:@[bottom, top, left, right]];
-  */
 }
 
 @end

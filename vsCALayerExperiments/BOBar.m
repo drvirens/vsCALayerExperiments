@@ -13,7 +13,7 @@
 
 //shape layer
 static const CGFloat kBackgroundBarHeightIsMoreByThisFactor = .1f; //20% more than real bar height. example, if real bar height is 100, bgBar will be 120
-static const CGFloat kHowBigIsItsShadow   = 0.5f; //the bigger the value, the longer the shadow on top
+static const CGFloat kHowBigIsItsShadow   = 0.33f; //the bigger the value, the longer the shadow on top
 static const CGFloat kHowBlurIsIt         = 10.f; //the biiger the value, the blurreir it is
 static const CGFloat kHowMuchVisibleIsIt  = .14f; //the bigger the value, the darker the shadow
 static const CGFloat kHowLongWouldItTake  = 0.5f; //animation duration
@@ -264,27 +264,6 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   [CATransaction commit];
 }
 
-
-//- (CAShapeLayer*)createSecondaryBar {
-//  CAShapeLayer* bar = [CAShapeLayer layer];
-//  [self initShapeLayer:bar 
-//                 block:^(CAShapeLayer* shapeLayer){
-//                   
-//                   UIColor* faintCOlor = [self.boBarColor colorWithAlphaComponent:0.1f];
-//                   shapeLayer.fillColor = faintCOlor.CGColor; //[BOColor skyBlueColorVeryFaint].CGColor;
-//                   
-//                   CGFloat width = self.bounds.size.width;
-//                   
-//                   CGRect rect = self.rectSecondaryBarFrame;
-//                   NSLog(@"FRAME for BOBar is [%@]", NSStringFromCGRect(self.frame));
-//                   NSLog(@"So rectSecondaryBarFrame here is [%@]", NSStringFromCGRect(self.rectSecondaryBarFrame));
-//                   
-//                   UIBezierPath* path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:width/2.f];
-//                   shapeLayer.path = path.CGPath;
-//                 }];
-//  return bar;
-//}
-
 - (UIBezierPath*)backgroundBarFrom {
   CGFloat cornerRadius = self.rectBarFrame.size.width / 2.f;
   UIRectCorner rectCorner = UIRectCornerAllCorners;
@@ -354,47 +333,6 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
                  }];
   return bar;
 }
-
-//- (CAShapeLayer*)createSecondaryBar {
-//  CAShapeLayer* bar = [CAShapeLayer layer];
-//  [self initShapeLayer:bar 
-//                 block:^(CAShapeLayer* shapeLayer){
-//                   
-//                   UIColor* faintCOlor = [self.boBarColor colorWithAlphaComponent:0.1f];
-//                   shapeLayer.fillColor = faintCOlor.CGColor; //[BOColor skyBlueColorVeryFaint].CGColor;
-//                   
-//                   CGFloat width = self.bounds.size.width;
-//                   
-//                   CGRect rect = self.rectSecondaryBarFrame;
-//                   NSLog(@"FRAME for BOBar is [%@]", NSStringFromCGRect(self.frame));
-//                   NSLog(@"So rectSecondaryBarFrame here is [%@]", NSStringFromCGRect(self.rectSecondaryBarFrame));
-//                   
-//                   
-//                   UIBezierPath* path = nil;
-//                   if (YES == self.showFullHeightForSecondaryBar) {
-//                     path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:width/2.f];
-//                   } else {
-//                     CGFloat width = self.bounds.size.width;
-//                     
-//                     CGFloat screenHeight = self.rectSecondaryBarFrame.size.height; 
-//                     CGFloat height = self.rectSecondaryBarFrame.size.height * (self.progress);
-//                     CGFloat y = self.rectSecondaryBarFrame.origin.y + (self.rectSecondaryBarFrame.size.height - screenHeight); 
-//                     
-//                     CGFloat progressX = self.rectSecondaryBarFrame.origin.x;
-//                     CGFloat progressY = y;
-//                     CGFloat progressWidth = self.rectSecondaryBarFrame.size.width;
-//                     CGFloat progressHeight = height;
-//                     
-//                     CGRect progressAwareRect = CGRectMake(progressX, progressY, progressWidth, progressHeight);
-//                     self.rectSecondaryBarFrame = progressAwareRect;
-//                     
-//                     path = [UIBezierPath bezierPathWithRoundedRect:progressAwareRect cornerRadius:width/2.f];
-//                   }
-//                   shapeLayer.path = path.CGPath;
-//                 }];
-//  return bar;
-//}
-
 
 
 #pragma mark - kvo
