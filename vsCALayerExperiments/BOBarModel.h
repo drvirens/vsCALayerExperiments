@@ -16,11 +16,15 @@
 @property (nonatomic, readonly) CGFloat progress;
 @property (nonatomic, readonly) UIColor* boBarColor;
 @property (nonatomic, readonly) BOOL showFullHeightForSecondaryBar;
+@property (nonatomic, readonly) BOOL animateTitleText;
+@property (nonatomic, readonly) BOOL animateSubTitleText;
 
 - (instancetype)initWithTitle:(NSString*)title
                      subTitle:(NSString*)subTitle
                      progress:(CGFloat)progress
                    boBarColor:(UIColor*)boBarColor
-showFullHeightForSecondaryBar:(BOOL)showFullHeightForSecondaryBar;
+showFullHeightForSecondaryBar:(BOOL)showFullHeightForSecondaryBar
+             animateTitleText:(BOOL)animateTitleText
+          animateSubTitleText:(BOOL)animateSubTitleText;
 
 @end

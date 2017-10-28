@@ -16,6 +16,8 @@
 #define USE_BO_CHART_BAR_VIEW 1
 #define SHOW_ONLY_ONE_BAR NO
 #define SHOW_FULL_LENGHT_SECONDARY_BAR NO
+#define ANIMATE_TITLE_LABEL NO
+#define ANIMATE_SUB_TITLE_LABEL YES
 
 @interface ViewController ()
 @property (nonatomic) CGRect rectBarFrame;
@@ -73,10 +75,13 @@
 #pragma mark - bar chart test
 - (void)addBarCHART {
   BOOL showFullHeightForSecondaryBar = SHOW_FULL_LENGHT_SECONDARY_BAR;
-  BOBarModel* model1 = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"92%"     progress:.92f boBarColor:[BOColor skyBlueColor] showFullHeightForSecondaryBar:showFullHeightForSecondaryBar];
-  BOBarModel* model2 = [[BOBarModel alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"10%" progress:.10f boBarColor:[BOColor pinkColor]showFullHeightForSecondaryBar:showFullHeightForSecondaryBar];
-  BOBarModel* model3 = [[BOBarModel alloc] initWithTitle:@"YOLANDA" subTitle:@"4%"          progress:.04f boBarColor:[BOColor brightGreen]showFullHeightForSecondaryBar:showFullHeightForSecondaryBar];
-  BOBarModel* model4 = [[BOBarModel alloc] initWithTitle:@"BRENT CORRIGAN" subTitle:@"43%"  progress:.43f boBarColor:[BOColor brightYellow]showFullHeightForSecondaryBar:showFullHeightForSecondaryBar];
+  BOOL animateTitleText = ANIMATE_TITLE_LABEL;
+  BOOL animateSubTitleText = ANIMATE_SUB_TITLE_LABEL;
+  
+  BOBarModel* model1 = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"92%"     progress:.92f boBarColor:[BOColor skyBlueColor] showFullHeightForSecondaryBar:showFullHeightForSecondaryBar animateTitleText:animateTitleText animateSubTitleText:animateSubTitleText];
+  BOBarModel* model2 = [[BOBarModel alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"10%" progress:.10f boBarColor:[BOColor pinkColor]showFullHeightForSecondaryBar:showFullHeightForSecondaryBar animateTitleText:animateTitleText animateSubTitleText:animateSubTitleText];
+  BOBarModel* model3 = [[BOBarModel alloc] initWithTitle:@"YOLANDA" subTitle:@"4%"          progress:.04f boBarColor:[BOColor brightGreen]showFullHeightForSecondaryBar:showFullHeightForSecondaryBar animateTitleText:animateTitleText animateSubTitleText:animateSubTitleText];
+  BOBarModel* model4 = [[BOBarModel alloc] initWithTitle:@"BRENT CORRIGAN" subTitle:@"43%"  progress:.43f boBarColor:[BOColor brightYellow]showFullHeightForSecondaryBar:showFullHeightForSecondaryBar animateTitleText:animateTitleText animateSubTitleText:animateSubTitleText];
   
   
   BOBarChartModel* barChartModel = [[BOBarChartModel alloc] initWithBarModels:@[model1, model2, model3, model4]];
@@ -108,14 +113,17 @@
 
 - (BOBar* )addTWOBOBar {
   BOOL showFullHeightForSecondaryBar = SHOW_FULL_LENGHT_SECONDARY_BAR;
-  self.model1 = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"82%" progress:.42f boBarColor:[BOColor skyBlueColor] showFullHeightForSecondaryBar:showFullHeightForSecondaryBar];
+  BOOL animateTitleText = ANIMATE_TITLE_LABEL;
+  BOOL animateSubTitleText = ANIMATE_SUB_TITLE_LABEL;
+
+  self.model1 = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"82%" progress:.42f boBarColor:[BOColor skyBlueColor] showFullHeightForSecondaryBar:showFullHeightForSecondaryBar animateTitleText:animateTitleText animateSubTitleText:animateSubTitleText];
   BOBar* boBarOne = [[BOBar alloc] initWithBarModel:self.model1];
   //boBarOne.backgroundColor = [UIColor blueColor];
   self.boBarOne = boBarOne;
   [self.view addSubview:boBarOne];
   
   
-  self.model2 = [[BOBarModel alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"10%" progress:0.89f boBarColor:[BOColor pinkColor] showFullHeightForSecondaryBar:showFullHeightForSecondaryBar];
+  self.model2 = [[BOBarModel alloc] initWithTitle:@"VIRENDRA SHAKYA" subTitle:@"10%" progress:0.89f boBarColor:[BOColor pinkColor] showFullHeightForSecondaryBar:showFullHeightForSecondaryBar animateTitleText:animateTitleText animateSubTitleText:animateSubTitleText];
   BOBar* boBarTwo = [[BOBar alloc] initWithBarModel:self.model2];
   //boBarTwo.backgroundColor = [UIColor redColor];
   self.boBarTwo = boBarTwo;
@@ -154,11 +162,12 @@
 }
 
 
-
-
 - (BOBar* )addOnlyOneBOBar {
   BOOL showFullHeightForSecondaryBar = SHOW_FULL_LENGHT_SECONDARY_BAR;
-  BOBarModel* model = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"82%" progress:.42f boBarColor:[BOColor skyBlueColor] showFullHeightForSecondaryBar:showFullHeightForSecondaryBar];
+  BOOL animateTitleText = ANIMATE_TITLE_LABEL;
+  BOOL animateSubTitleText = ANIMATE_SUB_TITLE_LABEL;
+
+  BOBarModel* model = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"82%" progress:.42f boBarColor:[BOColor skyBlueColor] showFullHeightForSecondaryBar:showFullHeightForSecondaryBar animateTitleText:animateTitleText animateSubTitleText:animateSubTitleText];
   BOBar* boBarOne = [[BOBar alloc] initWithBarModel:model];
   self.boBarOne = boBarOne;
   

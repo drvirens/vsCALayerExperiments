@@ -14,7 +14,8 @@
 + (UIColor*)pinkColor;
 + (UIColor*)skyBlueColorVeryFaint;
 + (UIColor*)barSubTitleColor;
-+ (UIColor*)barTitleColor;
++ (UIColor*)barSubTitleFaintColor;
++ (UIColor*)barSubTitleDarkColor;
 + (UIColor*)darkPurple;
 + (UIColor*)brightGreen;
 + (UIColor*)brightYellow;

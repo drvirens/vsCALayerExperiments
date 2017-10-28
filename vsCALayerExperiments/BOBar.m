@@ -16,12 +16,14 @@ static const CGFloat kBackgroundBarHeightIsMoreByThisFactor = .1f; //20% more th
 static const CGFloat kHowBigIsItsShadow   = 0.33f; //the bigger the value, the longer the shadow on top
 static const CGFloat kHowBlurIsIt         = 10.f; //the biiger the value, the blurreir it is
 static const CGFloat kHowMuchVisibleIsIt  = .14f; //the bigger the value, the darker the shadow
-static const CGFloat kHowLongWouldItTake  = 0.5f; //animation duration
+static const CGFloat kHowLongWouldItTake  = .5f; //animation duration
 
 
 //text layer
-static const CGFloat kTitleFOntSize = 20.f;
-static const CGFloat kTitleFOntSmallSize = 14.f;
+static const CGFloat kFontSizeBottomText = 12.f; //fontsize of top label aka subtitle label aka percent label
+static const CGFloat kFontSizeTopTextSmall = 14.f; //fontsize of bottom label aka title label aka name label
+static const CGFloat kFontSizeTopTextBig = 24.f;
+
 static const CGFloat kMarginBottomSubTitle = 20.f;
 
 @interface BOBar ()
@@ -35,6 +37,9 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
 @property (nonatomic, readwrite) CGFloat progress;
 @property (nonatomic, readwrite) UIColor* boBarColor;
 @property (nonatomic, readwrite) BOOL showFullHeightForSecondaryBar;
+@property (nonatomic, readwrite) BOOL animateTitleText;
+@property (nonatomic, readwrite) BOOL animateSubTitleText;
+
 @end
 
 @implementation BOBar
@@ -47,6 +52,8 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
     _progress = barModel.progress;
     _boBarColor = barModel.boBarColor;
     _showFullHeightForSecondaryBar = barModel.showFullHeightForSecondaryBar;
+    _animateTitleText = barModel.animateTitleText;
+    _animateSubTitleText = barModel.animateSubTitleText;
     [self commonInit];
   }
   return self;
@@ -68,19 +75,51 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
     [self.layer addSublayer:bar];
   }
   {
-    //add subtitle
+    //top label == subtitle (percent shit)
     CATextLayer* subtitle = [self createTopTextLabel:self.subTitle];
     [self positionTopTextLabel:subtitle];
+    if (self.animateSubTitleText) {
+      [self addFontColorAndAlphaAnimation:subtitle];
+    } else {
+      
+    }
     [self.layer addSublayer:subtitle];
   }
   {
-    //add title
+    //bottom label == title (name shit)
     CATextLayer* title = [self createBottomTextLabel:self.title];
     [self positionBottomTextLabel:title];
+    if (self.animateTitleText) {
+      
+    } else {
+      
+    }
     [self.layer addSublayer:title];
   }
 }
 
+- (void)addFontColorAndAlphaAnimation:(CATextLayer*)text {
+  //foregroundColor
+  CABasicAnimation* foregroundColor = [CABasicAnimation animationWithKeyPath:@"foregroundColor"];
+  foregroundColor.fromValue = (id)[BOColor barSubTitleFaintColor].CGColor;
+  foregroundColor.toValue = (id)[BOColor barSubTitleDarkColor].CGColor;
+  
+  //fontSize
+  CABasicAnimation* fontSize = [CABasicAnimation animationWithKeyPath:@"fontSize"];
+  fontSize.fromValue = @(kFontSizeTopTextSmall);
+  fontSize.toValue = @(kFontSizeTopTextBig);
+
+  //group
+  CAAnimationGroup* group = [CAAnimationGroup animation];
+  group.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+  group.duration = kHowLongWouldItTake;
+  group.animations = @[foregroundColor, fontSize];
+  group.removedOnCompletion = NO;
+  [text addAnimation:group forKey:@"foregroundColor and fontSize"];
+  
+  text.foregroundColor = [BOColor barSubTitleDarkColor].CGColor;
+  text.fontSize = kFontSizeTopTextBig;
+}
 
 - (void)commonInit {
   self.translatesAutoresizingMaskIntoConstraints = NO;
@@ -94,8 +133,8 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   CATextLayer* text = [CATextLayer layer];
   //XXX: Use attributed string
   text.string = title;
-  text.foregroundColor = [BOColor barSubTitleColor].CGColor;
-  text.fontSize = kTitleFOntSmallSize;
+  text.foregroundColor = [BOColor barSubTitleFaintColor].CGColor;
+  text.fontSize = kFontSizeBottomText;
   text.contentsScale = [UIScreen mainScreen].scale;
   text.alignmentMode = kCAAlignmentCenter;
   text.wrapped = YES;
@@ -105,8 +144,8 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   CATextLayer* text = [CATextLayer layer];
   //XXX: Use attributed string
   text.string = title;
-  text.foregroundColor = [BOColor barTitleColor].CGColor;
-  text.fontSize = kTitleFOntSize;
+  text.foregroundColor = [BOColor barSubTitleDarkColor].CGColor;
+  text.fontSize = kFontSizeTopTextBig;
   text.contentsScale = [UIScreen mainScreen].scale;
   text.alignmentMode = kCAAlignmentCenter;
   text.wrapped = YES;
@@ -163,10 +202,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
 }
 
 - (void)addShadowToShapeLayer:(CAShapeLayer*)shapeLayer {
-  shapeLayer.shadowColor = self.boBarColor.CGColor; //[BOColor skyBlueColor].CGColor;
-  
-  //using shadowOffset and shadowPath will most likely screw up your shit so be careful
-  //shapeLayer.shadowOffset = CGSizeMake(0, -kHowBigIsItsShadow); //animatable
+  shapeLayer.shadowColor = self.boBarColor.CGColor; 
   shapeLayer.shadowRadius = kHowBlurIsIt;
   shapeLayer.shadowOpacity = kHowMuchVisibleIsIt; //animatable
   
@@ -183,7 +219,7 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   CAShapeLayer* bar = [CAShapeLayer layer];
   [self initShapeLayer:bar 
                  block:^(CAShapeLayer* shapeLayer){
-                   shapeLayer.fillColor = self.boBarColor.CGColor; //[BOColor skyBlueColor].CGColor;
+                   shapeLayer.fillColor = self.boBarColor.CGColor; 
                    UIBezierPath* path = [self to];
                    shapeLayer.path = path.CGPath;
                  }];
@@ -257,7 +293,6 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   pathFillAnimation.toValue = (id)([self to].CGPath);
   pathFillAnimation.duration = kHowLongWouldItTake;
   pathFillAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-  //pathFillAnimation.fillMode = kCAFillModeForwards;
   pathFillAnimation.removedOnCompletion = NO;
   
   [shapeLayer addAnimation:pathFillAnimation forKey:@"Path"];
@@ -269,7 +304,6 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   UIRectCorner rectCorner = UIRectCornerAllCorners;
   
   CGRect r = [self fromRect];
-  //CGFloat y = r.origin.y + (self.howBigIsItsShadow / 2.f);
   CGFloat y = r.origin.y + (self.bgBarHeightFactor/2.f);
   
   CGRect rect = CGRectMake(r.origin.x, y, r.size.width, r.size.height);
@@ -302,7 +336,6 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   pathFillAnimation.toValue = (id)([self backgroundBarTo].CGPath);
   pathFillAnimation.duration = kHowLongWouldItTake;
   pathFillAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-  //pathFillAnimation.fillMode = kCAFillModeForwards;
   pathFillAnimation.removedOnCompletion = NO;
   
   [shapeLayer addAnimation:pathFillAnimation forKey:@"Path"];
@@ -312,19 +345,13 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   CAShapeLayer* bar = [CAShapeLayer layer];
   [self initShapeLayer:bar 
                  block:^(CAShapeLayer* shapeLayer){
-                   
                    UIColor* faintCOlor = [self.boBarColor colorWithAlphaComponent:0.1f];
-                   shapeLayer.fillColor = faintCOlor.CGColor; //[BOColor skyBlueColorVeryFaint].CGColor;
-                   
-                   CGFloat width = self.bounds.size.width;
-                   
-                   CGRect rect = self.rectSecondaryBarFrame;
-                   NSLog(@"FRAME for BOBar is [%@]", NSStringFromCGRect(self.frame));
-                   NSLog(@"So rectSecondaryBarFrame here is [%@]", NSStringFromCGRect(self.rectSecondaryBarFrame));
-                   
-                   
+                   shapeLayer.fillColor = faintCOlor.CGColor; 
+                     
                    UIBezierPath* path = nil;
                    if (YES == self.showFullHeightForSecondaryBar) {
+                     CGFloat width = self.bounds.size.width;
+                     CGRect rect = self.rectSecondaryBarFrame;
                      path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:width/2.f];
                    } else {
                      path = [self backgroundBarTo];
@@ -356,7 +383,6 @@ static const CGFloat kMarginBottomSubTitle = 20.f;
   NSLog(@"observeValueForKeyPath for BOBar called");
   if ([keyPath isEqualToString:@"bounds"]) {
     self.layer.frame = self.bounds;
-    
     [self computeVisibleAreaRect];
   } else {
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];

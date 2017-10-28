@@ -20,8 +20,11 @@
   return [UIColor colorWithRed:41.f/255.f green:198.f/255.f blue:250.f/255.f alpha:.1f];
 }
 
-+ (UIColor*)barSubTitleColor {
++ (UIColor*)barSubTitleFaintColor {
   return [UIColor colorWithRed:1.f green:1.f blue:1.f alpha:.5f];
+}
++ (UIColor*)barSubTitleDarkColor {
+  return [UIColor colorWithRed:1.f green:1.f blue:1.f alpha:.9f];
 }
 + (UIColor*)barTitleColor {
   return [UIColor colorWithRed:1.f green:1.f blue:1.f alpha:.95f];
