@@ -14,7 +14,7 @@
 #import "BOBarChart.h"
 
 #define USE_BO_CHART_BAR_VIEW 1
-
+#define SHOW_ONLY_ONE_BAR NO
 #define SHOW_FULL_LENGHT_SECONDARY_BAR NO
 
 @interface ViewController ()
@@ -25,6 +25,7 @@
 @property (nonatomic) BOBarModel* model1;
 @property (nonatomic) BOBarModel* model2;
 @property (nonatomic) BOBarChart* barChartView;
+@property (nonatomic) BOOL showOnlyOneBar; //good for testing/debugging
 @end
 
 @implementation ViewController
@@ -33,6 +34,8 @@
 }
 - (void)viewDidLoad {
   [super viewDidLoad];
+  self.showOnlyOneBar = SHOW_ONLY_ONE_BAR;
+  
   
   self.view.backgroundColor = [BOColor darkPurple];
 //  self.view.backgroundColor = [UIColor whiteColor]; 
@@ -45,7 +48,12 @@
 #if USE_BO_CHART_BAR_VIEW
   [self addBarCHART];
 #else
-  [self addTWOBOBar];
+  if (self.showOnlyOneBar) {
+    [self addOnlyOneBOBar];
+  } else {
+    [self addTWOBOBar];
+  }
+  
 #endif
 }
 
@@ -54,7 +62,11 @@
 #if USE_BO_CHART_BAR_VIEW
   [self.barChartView showBars];
 #else
-  [self showBOBars];
+  if (self.showOnlyOneBar) {
+    [self.boBarOne showBar];
+  } else {
+    [self showBOBars];
+  }
 #endif
 }
 
@@ -82,9 +94,9 @@
     NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:barChartView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f];
     NSLayoutConstraint* bottom = [NSLayoutConstraint constraintWithItem:barChartView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeBottom multiplier:1.f constant:-0.f];
     NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:barChartView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f];
-    NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:barChartView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTrailing multiplier:1.f constant:-0.];
+    NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:barChartView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f];
     
-    [parent addConstraints:@[top, bottom, left, ]];
+    [parent addConstraints:@[top, bottom, left, right]];
   }
 }
 
@@ -118,7 +130,6 @@
     NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:kVerticalMargin];
     NSLayoutConstraint* bottom = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeBottom multiplier:1.f constant:-kVerticalMargin];
     NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f];
-    NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTrailing multiplier:1.f constant:-0.];
     
     [parent addConstraints:@[top, bottom, left, ]];
     
@@ -130,7 +141,6 @@
   {
     NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:boBarTwo attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:kVerticalMargin];
     NSLayoutConstraint* bottom = [NSLayoutConstraint constraintWithItem:boBarTwo attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeBottom multiplier:1.f constant:-kVerticalMargin];
-    NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:boBarTwo attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:boBarOne attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0];
     NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:boBarTwo attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTrailing multiplier:1.f constant:-0.];
     
     [parent addConstraints:@[top, bottom, right]];
@@ -146,21 +156,25 @@
 
 
 
-//- (BOBar* )addOnlyOneBOBar {
-//  BOBar* boBarOne = [[BOBar alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"69 %"];
-//  [self.view addSubview:boBarOne];
-//  static const CGFloat kVerticalMargin = 100.f;
-//  static const CGFloat kHorizontalMargin = 140.f;
-//  UIView* parent = self.view;
-//  //constraints
-//  NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:kVerticalMargin];
-//  NSLayoutConstraint* bottom = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeBottom multiplier:1.f constant:-kVerticalMargin];
-//  NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeLeading multiplier:1.f constant:kHorizontalMargin];
-//  NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTrailing multiplier:1.f constant:-kHorizontalMargin];
-//  
-//  [parent addConstraints:@[top, bottom, left, right]];
-//  return boBarOne;
-//}
+- (BOBar* )addOnlyOneBOBar {
+  BOOL showFullHeightForSecondaryBar = SHOW_FULL_LENGHT_SECONDARY_BAR;
+  BOBarModel* model = [[BOBarModel alloc] initWithTitle:@"BOWEN SWIFT" subTitle:@"82%" progress:.42f boBarColor:[BOColor skyBlueColor] showFullHeightForSecondaryBar:showFullHeightForSecondaryBar];
+  BOBar* boBarOne = [[BOBar alloc] initWithBarModel:model];
+  self.boBarOne = boBarOne;
+  
+  [self.view addSubview:boBarOne];
+  static const CGFloat kVerticalMargin = 100.f;
+  static const CGFloat kHorizontalMargin = 140.f;
+  UIView* parent = self.view;
+  //constraints
+  NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:kVerticalMargin];
+  NSLayoutConstraint* bottom = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeBottom multiplier:1.f constant:-kVerticalMargin];
+  NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeLeading multiplier:1.f constant:kHorizontalMargin];
+  NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:boBarOne attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTrailing multiplier:1.f constant:-kHorizontalMargin];
+  
+  [parent addConstraints:@[top, bottom, left, right]];
+  return boBarOne;
+}
 
 
 //
