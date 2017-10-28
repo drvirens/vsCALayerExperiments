@@ -63,6 +63,7 @@
     label.font = [BOFont fontQuestion];
     label.textAlignment = NSTextAlignmentLeft;
     label.numberOfLines = 0;
+    label.lineBreakMode = NSLineBreakByWordWrapping;
     label.minimumScaleFactor = 0.5; 
     label.adjustsFontSizeToFitWidth = YES;
     _labelTitle = label;
@@ -94,7 +95,7 @@
                                                             attribute:NSLayoutAttributeTop
                                                            multiplier:1.f
                                                              constant:-0.f];
-    bottom.priority = UILayoutPriorityDefaultLow;
+    //bottom.priority = UILayoutPriorityDefaultLow;
   
   NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:self.labelTitle
                                                          attribute:NSLayoutAttributeTop
@@ -102,7 +103,7 @@
                                                             toItem:parent
                                                          attribute:NSLayoutAttributeTop
                                                         multiplier:1.f
-                                                          constant:60.f];
+                                                          constant:0.f];
   
   NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:self.labelTitle
                                                           attribute:NSLayoutAttributeLeading
@@ -129,7 +130,7 @@
     NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:self.barChartView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.labelTitle attribute:NSLayoutAttributeBottom multiplier:1.f constant:0.f];
     NSLayoutConstraint* bottom = [NSLayoutConstraint constraintWithItem:self.barChartView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeBottom multiplier:1.f constant:-0.f];
     NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:self.barChartView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f];
-    NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:self.barChartView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f];
+    NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:self.barChartView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTrailing multiplier:1.f constant:-0.f];
     
     [parent addConstraints:@[top, bottom, left, right]];
   }

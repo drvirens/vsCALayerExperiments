@@ -59,10 +59,10 @@
   UIView* parent = self.view;
   //constraints
   {
-    NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:self.pollResultView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:0.f];
+    NSLayoutConstraint* top = [NSLayoutConstraint constraintWithItem:self.pollResultView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTop multiplier:1.f constant:80.f];
     NSLayoutConstraint* bottom = [NSLayoutConstraint constraintWithItem:self.pollResultView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeBottom multiplier:1.f constant:-0.f];
     NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:self.pollResultView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeLeading multiplier:1.f constant:0.f];
-    NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:self.pollResultView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTrailing multiplier:1.f constant:0.f];
+    NSLayoutConstraint* right = [NSLayoutConstraint constraintWithItem:self.pollResultView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:parent attribute:NSLayoutAttributeTrailing multiplier:1.f constant:-0.f];
     
     [parent addConstraints:@[top, bottom, left, right]];
   }

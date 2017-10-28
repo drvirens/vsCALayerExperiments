@@ -70,6 +70,7 @@
 
 - (CGFloat)ourTotalWidth {
   CGFloat w = [UIScreen mainScreen].bounds.size.width;
+  NSLog(@"bounds for barchartview=%@", NSStringFromCGRect(self.bounds));
   return w;
 }
 - (CGFloat)singleBarWidth {
