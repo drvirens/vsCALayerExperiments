@@ -36,7 +36,9 @@
   
   [self.pollResultView showPollsResults];
 }
-
+- (BOOL)prefersStatusBarHidden {
+  return YES;
+}
 #pragma mark - polls results view
 - (void)addPollResultView {
   BOOL showFullHeightForSecondaryBar = SHOW_FULL_LENGHT_SECONDARY_BAR;

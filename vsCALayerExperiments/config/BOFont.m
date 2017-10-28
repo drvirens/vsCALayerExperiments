@@ -10,7 +10,7 @@
 #import "BOFont.h"
 
 static const CGFloat kStandardComparisonSizeFromSketch = 568.f;
-static const CGFloat kStandardFontSizeQuestion = 22.f;
+static const CGFloat kStandardFontSizeQuestion = 20.f;
 
 @implementation BOFont
 
@@ -20,7 +20,7 @@ static const CGFloat kStandardFontSizeQuestion = 22.f;
   
   newFontSize = (screenHeight * kStandardFontSizeQuestion) / kStandardComparisonSizeFromSketch;
   NSLog(@"AvenirNext-Bold = [%f]", newFontSize);
-  return [UIFont fontWithName:@"AvenirNext-Bold" size:newFontSize];
+  return [UIFont fontWithName:@"AvenirNext-Regular" size:newFontSize];
 }
 
 

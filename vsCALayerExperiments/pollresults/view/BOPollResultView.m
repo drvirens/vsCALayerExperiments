@@ -62,7 +62,7 @@
     label.textColor = [BOColor barSubTitleFaintColor];
     label.font = [BOFont fontQuestion];
     label.textAlignment = NSTextAlignmentLeft;
-    label.numberOfLines = 1;
+    label.numberOfLines = 0;
     label.minimumScaleFactor = 0.5; 
     label.adjustsFontSizeToFitWidth = YES;
     _labelTitle = label;
@@ -102,7 +102,7 @@
                                                             toItem:parent
                                                          attribute:NSLayoutAttributeTop
                                                         multiplier:1.f
-                                                          constant:0.f];
+                                                          constant:60.f];
   
   NSLayoutConstraint* left = [NSLayoutConstraint constraintWithItem:self.labelTitle
                                                           attribute:NSLayoutAttributeLeading

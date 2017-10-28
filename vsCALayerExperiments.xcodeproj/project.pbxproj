@@ -67,9 +67,9 @@
 			isa = PBXGroup;
 			children = (
 				1106D9FA1FA47427004D4BFD /* BOColor.h */,
-				1106D9FB1FA47427004D4BFD /* BOFont.m */,
 				1106D9FC1FA47427004D4BFD /* BOColor.m */,
 				1106D9FD1FA47427004D4BFD /* BOFont.h */,
+				1106D9FB1FA47427004D4BFD /* BOFont.m */,
 			);
 			path = config;
 			sourceTree = "<group>";
