@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BOPollResultView : UIView
+@class BOBarChartModel;
 
+@interface BOPollResultView : UIView
+- (instancetype)initWithBarChartModel:(BOBarChartModel*)barChartModel
+                              question:(NSString*)question;
+- (void)showPollsResults;
 @end
